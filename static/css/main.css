@@ -1,0 +1,86 @@
+/* 水平垂直居中-公共类 */
+
+.c-wrap {
+    display: table;
+    *writing-mode: tb-rl;
+}
+
+.c-inner {
+    display: table-cell;
+    vertical-align: middle;
+    *width: 100%;
+    *margin: auto 0;
+    *writing-mode: lr-tb;
+}
+
+
+/**
+ * 微调 class
+ */
+
+html {
+    /*font-size: 14px;*/
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch;
+}
+
+body {
+    background: #f0f0f0;
+    word-break: break-all;
+    margin: 0;
+    padding: 0;
+}
+
+.mainpage-button {
+    display: inline-block;
+    background:#6bc2f9;
+    border-radius:2px;
+    width:140px;
+    height:44px;
+    font-size:16px;
+    color:#ffffff;
+    line-height:44px;
+    text-align:center;
+    cursor: pointer;
+    /*flex:1;*/
+    margin:10px;
+    text-decoration: none;
+
+}
+.save{
+    background:#ff9900;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+}
+.join-wrap{
+    display: flex;
+    justify-content: center;
+}
+.button-wrap{
+    text-align:center;
+}
+
+.page-cover{
+    position: fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:7;
+}
+
+
+.register-wrap{
+    background: #ffffff;
+    border:1px solid #dddddd;
+    width:1100px;
+    overflow:hidden;
+    text-align: center;
+    padding:20px;
+}
+
+
+

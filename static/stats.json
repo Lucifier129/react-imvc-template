@@ -1,0 +1,26 @@
+{
+  "index": [
+    "index.js",
+    "index.js.map"
+  ],
+  "demo-home": [
+    "demo-home.js",
+    "demo-home.js.map"
+  ],
+  "demo-list": [
+    "demo-list.js",
+    "demo-list.js.map"
+  ],
+  "demo-detail": [
+    "demo-detail.js",
+    "demo-detail.js.map"
+  ],
+  "im-chat": [
+    "im-chat.js",
+    "im-chat.js.map"
+  ],
+  "vendor": [
+    "vendor.js",
+    "vendor.js.map"
+  ]
+}
