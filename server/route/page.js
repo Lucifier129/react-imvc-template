@@ -112,10 +112,11 @@ router.all('*', async (req, res, next) => {
             return
         }
         let initialState = controller.store ? controller.store.getState() : undefined;
+        let htmlConfigs = initialState ? initialState.html : undefined
+        let layout = controller.layout || 'layout'
 
-        let layoutName = controller.layoutName || 'layout'
-
-        res.render(layoutName, {
+        res.render(layout, {
+            ...htmlConfigs,
             assets,
             content,
             initialState,

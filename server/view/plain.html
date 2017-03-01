@@ -9,9 +9,13 @@
     <title>{{ title }}</title>
     <meta name="description" content="{{ description }}">
     <meta name="keywords" content="{{ keywords }}">
+    {{head}}
   </head>
   <body>
-   404rwrw
-   {{content}}
+    {{header}}
+    <div id="root">{{ content }}</div>
+    <div id="modal"></div>
+    {{footer}}
+    {{ending}}
   </body>
 </html>

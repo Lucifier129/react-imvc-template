@@ -9,10 +9,13 @@
     <title>{{ title }}</title>
     <meta name="description" content="{{ description }}">
     <meta name="keywords" content="{{ keywords }}">
+    {{head}}
   </head>
   <body>
+    {{header}}
     <div id="root">{{ content }}</div>
     <div id="modal"></div>
+    {{footer}}
     <script>
       (function() {
         window.__INITIAL_STATE__ = {{ initialState }}
@@ -22,5 +25,6 @@
     </script>
     <script src="{{ publicPath }}/javascript/{{ assets.vendor }}"></script>
     <script src="{{ publicPath }}/javascript/{{ assets.index }}"></script>
+    {{ending}}
   </body>
 </html>

@@ -1,4 +1,4 @@
-import React, { Component, PureComponent, Children, PropTypes } from 'react'
+import React, { Component, PureComponent, Children, PropTypes } from "react";
 
 /**
  * BaesView 组件
@@ -6,18 +6,31 @@ import React, { Component, PureComponent, Children, PropTypes } from 'react'
  * 传递 React Component 的 context 对象
  */
 export default class BaseView extends PureComponent {
-	static childContextTypes = {
-		location: PropTypes.object,
-		history: PropTypes.object,
-		actions: PropTypes.object,
-		state: PropTypes.object,
-		preload: PropTypes.object,
-		handleInputChange: PropTypes.func,
-	};
-	getChildContext() {
-		return this.props.context
-	}
-	render() {
-		return Children.only(this.props.children)
-	}
+  static childContextTypes = {
+    location: PropTypes.object,
+    history: PropTypes.object,
+    actions: PropTypes.object,
+    state: PropTypes.object,
+    preload: PropTypes.object,
+    handleInputChange: PropTypes.func
+  };
+  updateDocumentTitle() {
+    let { html } = this.props.context.state;
+    if (!html) {
+      return;
+    }
+    let { title } = html;
+    if (title && title !== document.title) {
+      document.title = title;
+    }
+  }
+  componentDidMount() {
+    this.updateDocumentTitle();
+  }
+  getChildContext() {
+    return this.props.context;
+  }
+  render() {
+    return Children.only(this.props.children);
+  }
 }
