@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-var calendar = require('./calendar');
+var calendar = require("./calendar");
 
-function inline (elem, calendarOptions) {
+function inline(elem, calendarOptions) {
   var o = calendarOptions || {};
 
   o.appendTo = elem;

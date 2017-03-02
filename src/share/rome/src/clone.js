@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-var momentum = require('./momentum');
+var momentum = require("./momentum");
 
 // naïve implementation, specifically meant to clone `options` objects
-function clone (thing) {
+function clone(thing) {
   var copy = {};
   var value;
 

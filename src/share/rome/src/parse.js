@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
-var momentum = require('./momentum');
+var momentum = require("./momentum");
 
-function raw (date, format) {
-  if (typeof date === 'string') {
+function raw(date, format) {
+  if (typeof date === "string") {
     return momentum.moment(date, format);
   }
-  if (Object.prototype.toString.call(date) === '[object Date]') {
+  if (Object.prototype.toString.call(date) === "[object Date]") {
     return momentum.moment(date);
   }
   if (momentum.isMoment(date)) {
@@ -14,8 +14,8 @@ function raw (date, format) {
   }
 }
 
-function parse (date, format) {
-  var m = raw(date, typeof format === 'string' ? format : null);
+function parse(date, format) {
+  var m = raw(date, typeof format === "string" ? format : null);
   return m && m.isValid() ? m : null;
 }
 

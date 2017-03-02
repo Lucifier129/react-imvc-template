@@ -1,15 +1,15 @@
-'use strict';
+"use strict";
 
-module.exports = function throttle (fn, boundary) {
+module.exports = function throttle(fn, boundary) {
   var last = -Infinity;
   var timer;
-  return function bounced () {
+  return function bounced() {
     if (timer) {
       return;
     }
     unbound();
 
-    function unbound () {
+    function unbound() {
       clearTimeout(timer);
       timer = null;
       var next = last + boundary;

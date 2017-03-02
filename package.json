@@ -17,6 +17,7 @@
     "build": "npm run build:prod",
     "test": "cross-env NODE_ENV=test mocha --opts mocha.opts",
     "lint:staged": "lint-staged",
+    "prettier": "prettier --write \"src/**/*.js\" \"server/**/*.js\" ",
     "pkg": "npm run build:prod",
     "prepkg": "git pull --rebase origin dev",
     "postpkg": "git add -A && git commit -m auto-pkg && git push origin dev",
@@ -26,6 +27,10 @@
   },
   "lint-staged": {
     "src/**/*.js": [
+      "prettier --write",
+      "git add"
+    ],
+    "server/**/*.js": [
       "prettier --write",
       "git add"
     ]

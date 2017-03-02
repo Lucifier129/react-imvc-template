@@ -1,11 +1,11 @@
-'use strict';
+"use strict";
 
-var index = require('./index');
-var input = require('./input');
-var inline = require('./inline');
-var isInput = require('./isInput');
+var index = require("./index");
+var input = require("./input");
+var inline = require("./inline");
+var isInput = require("./isInput");
 
-function core (elem, options) {
+function core(elem, options) {
   var cal;
   var existing = index.find(elem);
   if (existing) {

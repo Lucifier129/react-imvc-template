@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-var momentum = require('./momentum');
+var momentum = require("./momentum");
 
-function use (moment) {
+function use(moment) {
   this.moment = momentum.moment = moment;
 }
 
