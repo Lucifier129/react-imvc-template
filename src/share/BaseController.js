@@ -273,8 +273,8 @@ export default class Controller {
     let promiseList = [];
 
     /**
-		 * 如果 shouldComponentUpdate 返回 false，不创建和渲染 React Component
-		 * 可以在 shouldComponentUpdate 里重定向到别的 Url
+		 * 如果 shouldComponentCreate 返回 false，不创建和渲染 React Component
+		 * 可以在 shouldComponentCreate 里重定向到别的 Url
 		 */
     if (this.shouldComponentCreate) {
       let result = await this.shouldComponentCreate();
