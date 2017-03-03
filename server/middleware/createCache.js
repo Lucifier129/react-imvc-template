@@ -4,142 +4,142 @@
  * 我们的需求是，每次调用，产生一个独立的实例
  */
 
-module.exports = function createCache() {
-  var result = {};
-  var cache = Object.create(null);
-  var debug = false;
-  var hitCount = 0;
-  var missCount = 0;
-  var size = 0;
+module.exports = function createCache () {
+  var result = {}
+  var cache = Object.create(null)
+  var debug = false
+  var hitCount = 0
+  var missCount = 0
+  var size = 0
 
-  result.put = function(key, value, time, timeoutCallback) {
+  result.put = function (key, value, time, timeoutCallback) {
     if (debug) {
-      console.log("caching: %s = %j (@%s)", key, value, time);
+      console.log('caching: %s = %j (@%s)', key, value, time)
     }
 
     if (
-      typeof time !== "undefined" &&
-      (typeof time !== "number" || isNaN(time) || time <= 0)
+      typeof time !== 'undefined' &&
+      (typeof time !== 'number' || isNaN(time) || time <= 0)
     ) {
-      throw new Error("Cache timeout must be a positive number");
+      throw new Error('Cache timeout must be a positive number')
     } else if (
-      typeof timeoutCallback !== "undefined" &&
-      typeof timeoutCallback !== "function"
+      typeof timeoutCallback !== 'undefined' &&
+      typeof timeoutCallback !== 'function'
     ) {
-      throw new Error("Cache timeout callback must be a function");
+      throw new Error('Cache timeout callback must be a function')
     }
 
-    var oldRecord = cache[key];
+    var oldRecord = cache[key]
     if (oldRecord) {
-      clearTimeout(oldRecord.timeout);
+      clearTimeout(oldRecord.timeout)
     } else {
-      size++;
+      size++
     }
 
     var record = {
       value: value,
       expire: time + Date.now()
-    };
+    }
 
     if (!isNaN(record.expire)) {
       record.timeout = setTimeout(
-        function() {
-          _del(key);
+        function () {
+          _del(key)
           if (timeoutCallback) {
-            timeoutCallback(key, value);
+            timeoutCallback(key, value)
           }
         },
         time
-      );
+      )
     }
 
-    cache[key] = record;
+    cache[key] = record
 
-    return value;
-  };
+    return value
+  }
 
-  result.del = function(key) {
-    var canDelete = true;
+  result.del = function (key) {
+    var canDelete = true
 
-    var oldRecord = cache[key];
+    var oldRecord = cache[key]
     if (oldRecord) {
-      clearTimeout(oldRecord.timeout);
+      clearTimeout(oldRecord.timeout)
       if (!isNaN(oldRecord.expire) && oldRecord.expire < Date.now()) {
-        canDelete = false;
+        canDelete = false
       }
     } else {
-      canDelete = false;
+      canDelete = false
     }
 
     if (canDelete) {
-      _del(key);
+      _del(key)
     }
 
-    return canDelete;
-  };
-
-  function _del(key) {
-    size--;
-    delete cache[key];
+    return canDelete
   }
 
-  result.clear = function() {
-    for (var key in cache) {
-      clearTimeout(cache[key].timeout);
-    }
-    size = 0;
-    cache = Object.create(null);
-    if (debug) {
-      hitCount = 0;
-      missCount = 0;
-    }
-  };
+  function _del (key) {
+    size--
+    delete cache[key]
+  }
 
-  result.get = function(key) {
-    var data = cache[key];
-    if (typeof data != "undefined") {
+  result.clear = function () {
+    for (var key in cache) {
+      clearTimeout(cache[key].timeout)
+    }
+    size = 0
+    cache = Object.create(null)
+    if (debug) {
+      hitCount = 0
+      missCount = 0
+    }
+  }
+
+  result.get = function (key) {
+    var data = cache[key]
+    if (typeof data !== 'undefined') {
       if (isNaN(data.expire) || data.expire >= Date.now()) {
-        if (debug) hitCount++;
-        return data.value;
+        if (debug) hitCount++
+        return data.value
       } else {
         // free some space
-        if (debug) missCount++;
-        size--;
-        delete cache[key];
+        if (debug) missCount++
+        size--
+        delete cache[key]
       }
     } else if (debug) {
-      missCount++;
+      missCount++
     }
-    return null;
-  };
+    return null
+  }
 
-  result.size = function() {
-    return size;
-  };
+  result.size = function () {
+    return size
+  }
 
-  result.memsize = function() {
-    var size = 0, key;
+  result.memsize = function () {
+    var size = 0, key
     for (key in cache) {
-      size++;
+      size++
     }
-    return size;
-  };
+    return size
+  }
 
-  result.debug = function(bool) {
-    debug = bool;
-  };
+  result.debug = function (bool) {
+    debug = bool
+  }
 
-  result.hits = function() {
-    return hitCount;
-  };
+  result.hits = function () {
+    return hitCount
+  }
 
-  result.misses = function() {
-    return missCount;
-  };
+  result.misses = function () {
+    return missCount
+  }
 
-  result.keys = function() {
-    return Object.keys(cache);
-  };
+  result.keys = function () {
+    return Object.keys(cache)
+  }
 
-  return result;
-};
+  return result
+}

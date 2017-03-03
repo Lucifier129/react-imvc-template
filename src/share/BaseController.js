@@ -1,10 +1,10 @@
 // base controller class
-import React, { Component } from "react";
-import { createStore, createLogger } from "relite";
-import * as _ from "./util";
-import setRecorder from "./recorder";
-import BaseView from "../component/BaseView";
-import * as shareActions from "./actions";
+import React, { Component } from 'react'
+import { createStore, createLogger } from 'relite'
+import * as _ from './util'
+import setRecorder from './recorder'
+import BaseView from '../component/BaseView'
+import * as shareActions from './actions'
 
 /**
  * 绑定 Store 到 View
@@ -14,41 +14,41 @@ import * as shareActions from "./actions";
  */
 export default class Controller {
   View = View;
-  constructor(location, context) {
-    this.location = location;
-    this.context = context;
-    this.handlers = {};
+  constructor (location, context) {
+    this.location = location
+    this.context = context
+    this.handlers = {}
   }
   // 绑定 handler 的 this 值为 controller 实例
-  combineHandlers(source) {
-    let { handlers } = this;
+  combineHandlers (source) {
+    let { handlers } = this
     Object.keys(source).forEach(key => {
-      let value = source[key];
-      if (key.indexOf("handle") === 0 && typeof value === "function") {
-        handlers[key] = value.bind(this);
+      let value = source[key]
+      if (key.indexOf('handle') === 0 && typeof value === 'function') {
+        handlers[key] = value.bind(this)
       }
-    });
+    })
   }
 
-  prependBasename(pathname) {
+  prependBasename (pathname) {
     if (_.isAbsoluteUrl(pathname)) {
-      return pathname;
+      return pathname
     }
-    let { locationOrigin, basename } = this.context;
-    return locationOrigin + basename + pathname;
+    let { locationOrigin, basename } = this.context
+    return locationOrigin + basename + pathname
   }
 
-  prependPublicPath(pathname) {
+  prependPublicPath (pathname) {
     if (_.isAbsoluteUrl(pathname)) {
-      return pathname;
+      return pathname
     }
-    let { locationOrigin, publicPath } = this.context;
-    return locationOrigin + publicPath + pathname;
+    let { locationOrigin, publicPath } = this.context
+    return locationOrigin + publicPath + pathname
   }
 
   // 处理 url 的相对路径或 mock 地址问题
   prependRestfulBasename = url => {
-    let { context } = this;
+    let { context } = this
 
     /**
 		 * 如果已经是绝对路径
@@ -57,40 +57,40 @@ export default class Controller {
 		 * 让浏览器自动匹配协议，支持 Https
 		 */
     if (_.isAbsoluteUrl(url)) {
-      if (context.isClient && url.indexOf("http:") === 0) {
-        url = url.replace("http:", "");
+      if (context.isClient && url.indexOf('http:') === 0) {
+        url = url.replace('http:', '')
       }
-      return url;
+      return url
     }
 
     // 对 mock 的请求进行另一种拼接，转到 node.js 服务去
-    if (url.indexOf("/mock/") === 0) {
-      return context.locationOrigin + context.basename + url;
+    if (url.indexOf('/mock/') === 0) {
+      return context.locationOrigin + context.basename + url
     }
 
-    return context.restfulApi + url;
+    return context.restfulApi + url
   };
 
   /**
 	* 封装重定向方法，根据 server/client 环境不同而选择不同的方式
 	*/
-  redirect(redirect, isReplace) {
-    let { history, context } = this;
+  redirect (redirect, isReplace) {
+    let { history, context } = this
 
     if (context.isServer) {
-      context.res.redirect(redirect);
+      context.res.redirect(redirect)
     } else if (context.isClient) {
       if (_.isAbsoluteUrl(redirect)) {
         if (isReplace) {
-          window.location.replace(redirect);
+          window.location.replace(redirect)
         } else {
-          window.location.href = redirect;
+          window.location.href = redirect
         }
       } else {
         if (isReplace) {
-          history.replace(redirect);
+          history.replace(redirect)
         } else {
-          history.push(redirect);
+          history.push(redirect)
         }
       }
     }
@@ -102,29 +102,29 @@ export default class Controller {
 	 * options.timeout:number 超时时间
 	 */
   fetch = (url, options = {}) => {
-    let { context } = this;
+    let { context } = this
     // 补全 url
-    let finalUrl = this.prependRestfulBasename(url);
+    let finalUrl = this.prependRestfulBasename(url)
 
     let finalOptions = {
-      method: "GET",
-      credentials: "include",
+      method: 'GET',
+      credentials: 'include',
       ...options,
       headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
         ...options.headers
       }
-    };
+    }
     /**
 		 * 浏览器端的 fetch 有 credentials: 'include'，会自动带上 cookie
 		 * 服务端得手动设置，可以从 context 对象里取 cookie
 		 */
     if (context.isServer) {
-      finalOptions.headers["Cookie"] = context.cookie;
+      finalOptions.headers['Cookie'] = context.cookie
     }
 
-    let fetchData = fetch(finalUrl, finalOptions);
+    let fetchData = fetch(finalUrl, finalOptions)
 
     /**
 		 * 拓展字段，如果手动设置 options.json 为 false
@@ -134,92 +134,92 @@ export default class Controller {
       fetchData = fetchData.then(response => {
         // 如果 response 状态异常，抛出错误
         if (!response.ok || response.status !== 200) {
-          return Promise.reject(new Error(response.statusText));
+          return Promise.reject(new Error(response.statusText))
         }
-        return response.json();
-      });
+        return response.json()
+      })
     }
 
-    let promiseList = [fetchData];
+    let promiseList = [fetchData]
 
     /**
 		 * 设置自动化的超时处理
 		 */
-    if (typeof options.timeout === "number") {
+    if (typeof options.timeout === 'number') {
       let timeoutReject = new Promise((resolve, reject) => {
         setTimeout(
           () => reject(new Error(`Timeout Error:${options.timeout}ms`)),
           options.timeout
-        );
-      });
-      promiseList.push(timeoutReject);
+        )
+      })
+      promiseList.push(timeoutReject)
     }
 
-    return Promise.race(promiseList);
+    return Promise.race(promiseList)
   };
   /**
 	 * 预加载 css 样式等资源
 	*/
   fetchPreload = preload => {
-    preload = preload || this.preload;
-    let keys = Object.keys(preload);
+    preload = preload || this.preload
+    let keys = Object.keys(preload)
     if (!preload || keys.length === 0) {
-      return;
+      return
     }
 
-    let { fetch, context } = this;
+    let { fetch, context } = this
     let list = keys.map(name => {
       if (context.preload[name]) {
-        return;
+        return
       }
-      let url = preload[name];
+      let url = preload[name]
 
       if (!_.isAbsoluteUrl(url)) {
-        url = this.prependPublicPath(url);
+        url = this.prependPublicPath(url)
       }
 
       let options = {
         json: false
-      };
+      }
       return fetch(url, options).then(_.toText).then(content => {
-        if (url.indexOf(".css") !== -1) {
+        if (url.indexOf('.css') !== -1) {
           /**
 						 * 如果是 CSS ，清空回车符
 						 * 否则同构渲染时 react 计算 checksum 值会不一致
 						 */
-          content = content.replace(/\r+/g, "");
+          content = content.replace(/\r+/g, '')
         }
-        context.preload[name] = content;
-      });
-    });
-    return Promise.all(list);
+        context.preload[name] = content
+      })
+    })
+    return Promise.all(list)
   };
   subscriber = data => {
-    let { context, logger } = this;
+    let { context, logger } = this
     if (context.isServer) {
-      return;
+      return
     }
-    logger(data);
-    this.refreshView();
+    logger(data)
+    this.refreshView()
     if (this.stateDidChange) {
-      this.stateDidChange(data);
+      this.stateDidChange(data)
     }
   };
-  async init() {
+  async init () {
     let {
       initialState,
       getInitialState,
       actions,
       context,
       location
-    } = this;
+    } = this
 
-    let globalInitialState = undefined;
+    let globalInitialState
 
     // 服务端把 initialState 吐在 html 里的全局变量 __INITIAL_STATE__ 里
-    if (typeof __INITIAL_STATE__ !== "undefined") {
-      globalInitialState = __INITIAL_STATE__;
-      __INITIAL_STATE__ = undefined;
+    if (typeof __INITIAL_STATE__ !== 'undefined') {
+      globalInitialState = __INITIAL_STATE__
+      __INITIAL_STATE__ = undefined
     }
     let finalInitialState = {
       ...initialState,
@@ -229,36 +229,36 @@ export default class Controller {
       isServer: context.isServer,
       publicPath: context.publicPath,
       restfulApi: context.restfulApi
-    };
+    }
 
     /**
 		 * 获取动态初始化的 initialState
 		 */
     if (this.getInitialState) {
-      finalInitialState = await this.getInitialState(finalInitialState);
+      finalInitialState = await this.getInitialState(finalInitialState)
     }
 
     // 对 api 里的路径进行补全
     if (finalInitialState.api) {
-      finalInitialState.api = Object.keys(finalInitialState.api).reduce(
-        (result, key) => {
-          result[key] = this.prependRestfulBasename(finalInitialState.api[key]);
-          return result;
-        },
-        {}
-      );
+      finalInitialState.api = Object.keys(finalInitialState.api).reduce((
+        result,
+        key
+      ) => {
+        result[key] = this.prependRestfulBasename(finalInitialState.api[key])
+        return result
+      }, {})
     }
 
     /**
 		 * 创建 store
 		 */
-    let finalActions = { ...shareActions, ...actions };
-    let store = this.store = createStore(finalActions, finalInitialState);
+    let finalActions = { ...shareActions, ...actions }
+    let store = this.store = createStore(finalActions, finalInitialState)
 
     /**
 		 * 将 handle 开头的方法，合并到 this.handlers 中
 		 */
-    this.combineHandlers(this);
+    this.combineHandlers(this)
 
     /**
 		 * 如果存在 globalInitialState
@@ -267,125 +267,125 @@ export default class Controller {
 		 * 不需要再调用 shouldComponentCreate 和 componentWillCreate
 		 */
     if (globalInitialState) {
-      return this.bindStoreToView();
+      return this.bindStoreToView()
     }
 
-    let promiseList = [];
+    let promiseList = []
 
     /**
 		 * 如果 shouldComponentCreate 返回 false，不创建和渲染 React Component
 		 * 可以在 shouldComponentCreate 里重定向到别的 Url
 		 */
     if (this.shouldComponentCreate) {
-      let result = await this.shouldComponentCreate();
+      let result = await this.shouldComponentCreate()
       if (result === false) {
-        return null;
+        return null
       }
     }
 
     // 在 React Component 创建前调用，可以发 ajax 请求获取数据
     if (this.componentWillCreate) {
-      promiseList.push(this.componentWillCreate());
+      promiseList.push(this.componentWillCreate())
     }
 
     /**
 		 * 获取预加载的资源
 		 */
     if (this.preload) {
-      promiseList.push(this.fetchPreload());
+      promiseList.push(this.fetchPreload())
     }
 
     if (promiseList.length) {
-      await Promise.all(promiseList);
+      await Promise.all(promiseList)
     }
 
-    return this.bindStoreToView();
+    return this.bindStoreToView()
   }
-  bindStoreToView() {
-    let { context, store, location, View, history } = this;
+  bindStoreToView () {
+    let { context, store, location, View, history } = this
 
     // bind store to view in client
     if (context.isClient) {
       this.logger = createLogger({
         name: this.name || location.pattern
-      });
-      let unsubscribeList = [];
-      let unsubscribe = store.subscribe(this.subscriber);
-      unsubscribeList.push(unsubscribe);
+      })
+      let unsubscribeList = []
+      let unsubscribe = store.subscribe(this.subscriber)
+      unsubscribeList.push(unsubscribe)
 
       // 监听路由跳转
       if (this.pageWillLeave) {
-        let unlisten = history.listenBefore(this.pageWillLeave.bind(this));
-        unsubscribeList.push(unlisten);
+        let unlisten = history.listenBefore(this.pageWillLeave.bind(this))
+        unsubscribeList.push(unlisten)
       }
 
       // 监听浏览器窗口关闭
       if (this.windowWillUnload) {
         let unlisten = history.listenBeforeUnload(
           this.windowWillUnload.bind(this)
-        );
-        unsubscribeList.push(unlisten);
+        )
+        unsubscribeList.push(unlisten)
       }
 
-      this.unsubscribeList = unsubscribeList;
+      this.unsubscribeList = unsubscribeList
 
-      setRecorder(store);
-      window.scrollTo(0, 0);
+      setRecorder(store)
+      window.scrollTo(0, 0)
     }
 
-    let controller = this;
+    let controller = this
 
     // ViewWrapper 把 react 组件生命周期同步到 controller 里
     class ViewWrapper extends Component {
-      componentWillMount() {
+      componentWillMount () {
         if (controller.componentWillMount) {
-          controller.componentWillMount();
+          controller.componentWillMount()
         }
       }
-      componentDidMount() {
+      componentDidMount () {
         if (controller.componentDidMount) {
-          controller.componentDidMount();
+          controller.componentDidMount()
         }
       }
-      componentWillUpdate(...args) {
+      componentWillUpdate (...args) {
         if (controller.componentWillUpdate) {
-          controller.componentWillUpdate(...args);
+          controller.componentWillUpdate(...args)
         }
       }
-      componentDidUpdate(...args) {
+      componentDidUpdate (...args) {
         if (controller.componentDidUpdate) {
-          controller.componentDidUpdate(...args);
+          controller.componentDidUpdate(...args)
         }
       }
-      shouldComponentUpdate(...args) {
+      shouldComponentUpdate (...args) {
         if (controller.shouldComponentUpdate) {
-          let result = controller.shouldComponentUpdate(...args);
-          return result === false ? false : true;
+          let result = controller.shouldComponentUpdate(...args)
+          return result === false ? false : true
         }
-        return true;
+        return true
       }
-      componentWillUnmount() {
+      componentWillUnmount () {
         if (controller.componentWillUnmount) {
-          controller.componentWillUnmount();
+          controller.componentWillUnmount()
         }
       }
-      render() {
-        return <View {...this.props} />;
+      render () {
+        return <View {...this.props} />
       }
     }
 
-    this.ViewWrapper = ViewWrapper;
+    this.ViewWrapper = ViewWrapper
 
-    return this.render();
+    return this.render()
   }
-  destroy() {
+  destroy () {
     if (this.unsubscribeList) {
-      this.unsubscribeList.forEach(unsubscribe => unsubscribe());
-      this.unsubscribeList = null;
+      this.unsubscribeList.forEach(unsubscribe => unsubscribe())
+      this.unsubscribeList = null
     }
   }
   handleInputChange = () => {};
-  render() {
+  render () {
     let {
       ViewWrapper,
       store,
@@ -394,8 +394,8 @@ export default class Controller {
       history,
       context,
       handleInputChange
-    } = this;
-    let state = store.getState();
+    } = this
+    let state = store.getState()
     let componentContext = {
       location,
       history,
@@ -403,15 +403,15 @@ export default class Controller {
       actions: store.actions,
       preload: context.preload,
       handleInputChange
-    };
+    }
     return (
       <BaseView context={componentContext} key={location.raw}>
         <ViewWrapper state={state} handlers={handlers} />
       </BaseView>
-    );
+    )
   }
 }
 
-function View() {
-  return <noscript />;
+function View () {
+  return <noscript />
 }

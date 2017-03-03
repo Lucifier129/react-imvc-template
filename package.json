@@ -17,7 +17,7 @@
     "build": "npm run build:prod",
     "test": "cross-env NODE_ENV=test mocha --opts mocha.opts",
     "lint:staged": "lint-staged",
-    "prettier": "prettier --write \"src/**/*.js\" \"server/**/*.js\" ",
+    "prettier": "prettier-standard-formatter src/**/*.js server/**/*.js",
     "pkg": "npm run build:prod",
     "prepkg": "git pull --rebase origin dev",
     "postpkg": "git add -A && git commit -m auto-pkg && git push origin dev",
@@ -27,18 +27,22 @@
   },
   "lint-staged": {
     "src/**/*.js": [
-      "prettier --write",
+      "prettier-standard-formatter --write",
       "git add"
     ],
     "server/**/*.js": [
-      "prettier --write",
+      "prettier-standard-formatter --write",
       "git add"
     ]
   },
   "pre-commit": "lint:staged",
+  "standard": {
+    "parser": "babel-eslint"
+  },
   "devDependencies": {
     "babel-cli": "^6.14.0",
     "babel-core": "^6.17.0",
+    "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.5",
     "babel-polyfill": "^6.13.0",
     "babel-preset-latest": "^6.14.0",
@@ -53,6 +57,7 @@
     "optimize-js-plugin": "^0.0.4",
     "pre-commit": "^1.2.2",
     "prettier": "^0.20.0",
+    "prettier-standard-formatter": "^0.222222222222222.333333333333333",
     "standard": "^8.6.0",
     "standard-loader": "^5.0.0",
     "webpack": "^1.13.3",

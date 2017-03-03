@@ -1,5 +1,5 @@
-"use strict";
+'use strict'
 
-function noop() {}
+function noop () {}
 
-module.exports = noop;
+module.exports = noop

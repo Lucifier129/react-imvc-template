@@ -1,25 +1,25 @@
-"use strict";
+'use strict'
 
-module.exports = function throttle(fn, boundary) {
-  var last = -Infinity;
-  var timer;
-  return function bounced() {
+module.exports = function throttle (fn, boundary) {
+  var last = -Infinity
+  var timer
+  return function bounced () {
     if (timer) {
-      return;
+      return
     }
-    unbound();
+    unbound()
 
-    function unbound() {
-      clearTimeout(timer);
-      timer = null;
-      var next = last + boundary;
-      var now = +new Date();
+    function unbound () {
+      clearTimeout(timer)
+      timer = null
+      var next = last + boundary
+      var now = +new Date()
       if (now > next) {
-        last = now;
-        fn.apply(this, arguments);
+        last = now
+        fn.apply(this, arguments)
       } else {
-        timer = setTimeout(unbound, next - now);
+        timer = setTimeout(unbound, next - now)
       }
     }
-  };
-};
+  }
+}

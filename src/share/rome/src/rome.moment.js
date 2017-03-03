@@ -1,8 +1,8 @@
-"use strict";
+'use strict'
 
-var moment = require("moment");
-var rome = require("./rome");
+var moment = require('moment')
+var rome = require('./rome')
 
-rome.use(moment);
+rome.use(moment)
 
-module.exports = rome;
+module.exports = rome

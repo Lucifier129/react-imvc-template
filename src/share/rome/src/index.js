@@ -1,25 +1,25 @@
-"use strict";
-var no;
-var ikey = "data-rome-id";
-var index = [];
+'use strict'
+var no
+var ikey = 'data-rome-id'
+var index = []
 
-function find(thing) {
+function find (thing) {
   // can be a DOM element or a number
-  if (typeof thing !== "number" && thing && thing.getAttribute) {
-    return find(thing.getAttribute(ikey));
+  if (typeof thing !== 'number' && thing && thing.getAttribute) {
+    return find(thing.getAttribute(ikey))
   }
-  var existing = index[thing];
+  var existing = index[thing]
   if (existing !== no) {
-    return existing;
+    return existing
   }
-  return null;
+  return null
 }
 
-function assign(elem, instance) {
-  elem.setAttribute(ikey, instance.id = index.push(instance) - 1);
+function assign (elem, instance) {
+  elem.setAttribute(ikey, instance.id = index.push(instance) - 1)
 }
 
 module.exports = {
   find: find,
   assign: assign
-};
+}

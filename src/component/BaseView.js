@@ -1,4 +1,4 @@
-import React, { Component, PureComponent, Children, PropTypes } from "react";
+import React, { Component, PureComponent, Children, PropTypes } from 'react'
 
 /**
  * BaesView 组件
@@ -14,23 +14,23 @@ export default class BaseView extends PureComponent {
     preload: PropTypes.object,
     handleInputChange: PropTypes.func
   };
-  updateDocumentTitle() {
-    let { html } = this.props.context.state;
+  updateDocumentTitle () {
+    let { html } = this.props.context.state
     if (!html) {
-      return;
+      return
     }
-    let { title } = html;
+    let { title } = html
     if (title && title !== document.title) {
-      document.title = title;
+      document.title = title
     }
   }
-  componentDidMount() {
-    this.updateDocumentTitle();
+  componentDidMount () {
+    this.updateDocumentTitle()
   }
-  getChildContext() {
-    return this.props.context;
+  getChildContext () {
+    return this.props.context
   }
-  render() {
-    return Children.only(this.props.children);
+  render () {
+    return Children.only(this.props.children)
   }
 }

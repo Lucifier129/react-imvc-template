@@ -1,43 +1,43 @@
-import pkg from "../../package";
+import pkg from '../../package'
 
 const fat = {
-  locationOrigin: "//localhost:3003",
-  restfulApi: "",
-  serverRestfulApi: ""
-};
+  locationOrigin: '//localhost:3003',
+  restfulApi: '',
+  serverRestfulApi: ''
+}
 
 const uat = {
-  locationOrigin: "//localhost:3003",
-  restfulApi: "",
-  serverRestfulApi: ""
-};
+  locationOrigin: '//localhost:3003',
+  restfulApi: '',
+  serverRestfulApi: ''
+}
 
 const prod = {
-  locationOrigin: "//localhost:3003",
-  restfulApi: "",
-  serverRestfulApi: ""
-};
+  locationOrigin: '//localhost:3003',
+  restfulApi: '',
+  serverRestfulApi: ''
+}
 
-const basename = pkg.config.vd;
-const env = pkg.config.env.toLowerCase();
-const envConfigMap = { fat, uat, prod };
-const envConfig = envConfigMap[env] || envConfigMap.prod;
+const basename = pkg.config.vd
+const env = pkg.config.env.toLowerCase()
+const envConfigMap = { fat, uat, prod }
+const envConfig = envConfigMap[env] || envConfigMap.prod
 
 const config = {
-  title: "test",
-  description: "test-description",
-  keywords: "test",
-  head: "",
-  header: "",
-  footer: "",
-  ending: "",
+  title: 'test',
+  description: 'test-description',
+  keywords: 'test',
+  head: '',
+  header: '',
+  footer: '',
+  ending: '',
   basename: basename,
-  publicPath: basename + "/static",
-  staticPath: "../static",
-  initialState: "undefined",
-  content: "",
+  publicPath: basename + '/static',
+  staticPath: '../static',
+  initialState: 'undefined',
+  content: '',
   appSettings: { ...envConfig },
   ...envConfig
-};
+}
 
-export default config;
+export default config

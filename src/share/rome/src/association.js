@@ -1,48 +1,48 @@
-"use strict";
+'use strict'
 
-var isInput = require("./isInput");
-var bindings = {};
+var isInput = require('./isInput')
+var bindings = {}
 
-function has(source, target) {
-  var binding = bindings[source.id];
-  return binding && binding[target.id];
+function has (source, target) {
+  var binding = bindings[source.id]
+  return binding && binding[target.id]
 }
 
-function insert(source, target) {
-  var binding = bindings[source.id];
+function insert (source, target) {
+  var binding = bindings[source.id]
   if (!binding) {
-    binding = bindings[source.id] = {};
+    binding = bindings[source.id] = {}
   }
-  var invalidate = invalidator(target);
-  binding[target.id] = invalidate;
-  source.on("data", invalidate);
-  source.on("destroyed", remove.bind(null, source, target));
+  var invalidate = invalidator(target)
+  binding[target.id] = invalidate
+  source.on('data', invalidate)
+  source.on('destroyed', remove.bind(null, source, target))
 }
 
-function remove(source, target) {
-  var binding = bindings[source.id];
+function remove (source, target) {
+  var binding = bindings[source.id]
   if (!binding) {
-    return;
+    return
   }
-  var invalidate = binding[target.id];
-  source.off("data", invalidate);
-  delete binding[target.id];
+  var invalidate = binding[target.id]
+  source.off('data', invalidate)
+  delete binding[target.id]
 }
 
-function invalidator(target) {
-  return function invalidate() {
-    target.refresh();
-  };
+function invalidator (target) {
+  return function invalidate () {
+    target.refresh()
+  }
 }
 
-function add(source, target) {
+function add (source, target) {
   if (isInput(target.associated) || has(source, target)) {
-    return;
+    return
   }
-  insert(source, target);
+  insert(source, target)
 }
 
 module.exports = {
   add: add,
   remove: remove
-};
+}
