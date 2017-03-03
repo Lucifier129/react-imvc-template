@@ -21,7 +21,7 @@
     "pkg": "npm run build:prod",
     "prepkg": "git pull --rebase origin dev",
     "postpkg": "git add -A && git commit -m auto-pkg && git push origin dev",
-    "predeploy": "npm run pkg && git checkout release",
+    "predeploy": "npm run pkg && git checkout release && git pull --rebase origin release",
     "deploy": "git merge --no-edit --no-ff dev && git push origin release",
     "postdeploy": "git checkout dev"
   },
