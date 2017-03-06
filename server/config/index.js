@@ -1,20 +1,25 @@
 import pkg from '../../package'
 
+const port = process.env.PORT || pkg.config.port || 3000
+
 const fat = {
   locationOrigin: '//localhost:3003',
   restfulApi: '',
+  serverLocationOrigin: `//localhost:${port}`,
   serverRestfulApi: ''
 }
 
 const uat = {
   locationOrigin: '//localhost:3003',
   restfulApi: '',
+  serverLocationOrigin: `//localhost:${port}`,
   serverRestfulApi: ''
 }
 
 const prod = {
   locationOrigin: '//localhost:3003',
   restfulApi: '',
+  serverLocationOrigin: `//localhost:${port}`,
   serverRestfulApi: ''
 }
 
