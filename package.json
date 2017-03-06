@@ -17,7 +17,7 @@
     "build": "npm run build:prod",
     "test": "cross-env NODE_ENV=test mocha --opts mocha.opts",
     "lint:staged": "lint-staged",
-    "prettier": "prettier-standard-formatter src/**/*.js server/**/*.js",
+    "prettier": "standard-prettier src/**/*.js server/**/*.js",
     "pkg": "npm run build:prod",
     "prepkg": "git pull --rebase origin dev",
     "postpkg": "git add -A && git commit -m auto-pkg && git push origin dev",
@@ -27,11 +27,11 @@
   },
   "lint-staged": {
     "src/**/*.js": [
-      "prettier-standard-formatter --write",
+      "standard-prettier --write",
       "git add"
     ],
     "server/**/*.js": [
-      "prettier-standard-formatter --write",
+      "standard-prettier --write",
       "git add"
     ]
   },
@@ -57,7 +57,7 @@
     "optimize-js-plugin": "^0.0.4",
     "pre-commit": "^1.2.2",
     "prettier": "^0.20.0",
-    "prettier-standard-formatter": "^0.222222222222222.333333333333333",
+    "standard-prettier": "^1.0.0",
     "standard": "^8.6.0",
     "standard-loader": "^5.0.0",
     "webpack": "^1.13.3",

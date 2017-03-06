@@ -384,7 +384,9 @@ export default class Controller {
       this.unsubscribeList = null
     }
   }
-  handleInputChange = () => {};
+  handleInputChange = (path, currentValue, oldValue) => {
+    return currentValue
+  };
   render () {
     let {
       ViewWrapper,

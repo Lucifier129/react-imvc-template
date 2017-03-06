@@ -2,11 +2,11 @@
 
 export default [
   {
-    path: '/im/chat',
-    controller: require('./chat/controller')
+    path: '/template',
+    controller: require('./home/controller')
   },
   {
-    path: '/im/list',
+    path: '/template/*',
     controller: require('./notfound/controller')
   }
 ]
