@@ -34,9 +34,7 @@ var entry = {
     'classnames',
     'querystring',
     'babel-polyfill',
-    'whatwg-fetch',
-    'moment',
-    'rome',
+    'whatwg-fetch'
   ]
 }
 var output = {

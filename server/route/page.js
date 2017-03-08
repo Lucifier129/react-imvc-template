@@ -59,7 +59,8 @@ router.all('*', async (req, res, next) => {
     cookie: req.headers.cookie || '',
     // 服务端用 http 写一，浏览器端让浏览器自动补全协议
     restfulApi: 'http:' + config.serverRestfulApi,
-    locationOrigin: 'http:' + config.serverLocationOrigin,
+    locationOrigin: 'http:' + config.locationOrigin,
+    serverLocationOrigin: 'http:' + config.serverLocationOrigin,
     preload: {},
     req,
     res

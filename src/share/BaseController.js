@@ -78,6 +78,9 @@ export default class Controller {
     let { history, context } = this
 
     if (context.isServer) {
+      if (!_.isAbsoluteUrl(redirect)) {
+        redirect = this.prependBasename(redirect)
+      }
       context.res.redirect(redirect)
     } else if (context.isClient) {
       if (_.isAbsoluteUrl(redirect)) {
@@ -175,9 +178,19 @@ export default class Controller {
       let url = preload[name]
 
       if (!_.isAbsoluteUrl(url)) {
-        url = this.prependPublicPath(url)
+        let {
+          locationOrigin,
+          serverLocationOrigin,
+          publicPath,
+          isClient,
+          isServer
+        } = this.context
+        if (isClient) {
+          url = locationOrigin + publicPath + url
+        } else if (isServer) {
+          url = serverLocationOrigin + publicPath + url
+        }
       }
-
       let options = {
         json: false
       }
@@ -236,17 +249,6 @@ export default class Controller {
 		 */
     if (this.getInitialState) {
       finalInitialState = await this.getInitialState(finalInitialState)
-    }
-
-    // 对 api 里的路径进行补全
-    if (finalInitialState.api) {
-      finalInitialState.api = Object.keys(finalInitialState.api).reduce((
-        result,
-        key
-      ) => {
-        result[key] = this.prependRestfulBasename(finalInitialState.api[key])
-        return result
-      }, {})
     }
 
     /**
@@ -384,9 +386,6 @@ export default class Controller {
       this.unsubscribeList = null
     }
   }
-  handleInputChange = (path, currentValue, oldValue) => {
-    return currentValue
-  };
   render () {
     let {
       ViewWrapper,

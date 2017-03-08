@@ -47,7 +47,9 @@ export default class Input extends Component {
     let currentValue = event.currentTarget.value
     let path = check ? `${name}.value` : name
     let oldValue = getValueByPath(state, path)
-    let value = handleInputChange(path, currentValue, oldValue)
+    let value = handleInputChange
+      ? handleInputChange(path, currentValue, oldValue)
+      : value
     let newState = setValueByPath(state, path, value)
 
     this.setGlobalState(newState)

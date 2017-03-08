@@ -1,4 +1,5 @@
 import 'moment/locale/zh-cn'
+// import 'moment/locale/en-gb'
 import ReactDOM from 'react-dom'
 import createApp from 'create-app/lib/client'
 import routes from './routes'
@@ -11,9 +12,9 @@ const webpackLoader = loadModule =>
 
 const viewEngine = {
   render (component, container) {
-    console.time('React#render')
+    console && console.time && console.time('React#render')
     let result = ReactDOM.render(component, container)
-    console.timeEnd('React#render')
+    console && console.timeEnd && console.timeEnd('React#render')
     return result
   }
 }

@@ -42,6 +42,10 @@ app.use(
 )
 app.use(cookieParser())
 
+app.get('/slbhealthcheck.html', (req, res) => {
+  res.send('slbhealthcheck ok')
+})
+
 // 开发模式用 webpack-dev-middleware 代理 js 文件
 if (process.env.NODE_ENV === 'development') {
   var setupDevEnv = require('../build/setup-dev-env')
@@ -54,9 +58,6 @@ app.use(
   staticPublicPath,
   express.static(path.join(__dirname, config.staticPath))
 )
-app.get('/slbhealthcheck.html', (req, res) => {
-  res.send('slbhealthcheck ok')
-})
 
 app.use('/mock', (req, res, next) => {
   let { url: target } = req
@@ -69,9 +70,6 @@ app.use('/mock', (req, res, next) => {
   }
 })
 
-// app.get('/im/list', (req, res) => {
-// 	res.
-// })
 app.use(page)
 
 // catch 404 and forward to error handler

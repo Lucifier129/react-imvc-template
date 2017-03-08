@@ -39,7 +39,7 @@ export default `
     width: 23px;
     height: 23px;
     color: #fff;
-    background: #2d7ce7 url() no-repeat;
+    background: #2d7ce7 url(http://pic.c-ctrip.com/cquery/un_calender_index.png) no-repeat;
     cursor: pointer;
     border:none;
 }
@@ -113,7 +113,7 @@ export default `
 .rd-day-body:hover,
 .rd-day-selected
 .rd-day-selected:hover {
-    background: #e6f4ff url() no-repeat;
+    background: #e6f4ff url(http://pic.c-ctrip.com/cquery/un_calender_index.png) no-repeat;
 }
 
 .rd-day-body:hover {
