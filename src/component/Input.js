@@ -49,7 +49,7 @@ export default class Input extends Component {
     let oldValue = getValueByPath(state, path)
     let value = handleInputChange
       ? handleInputChange(path, currentValue, oldValue)
-      : value
+      : currentValue
     let newState = setValueByPath(state, path, value)
 
     this.setGlobalState(newState)
