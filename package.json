@@ -11,6 +11,7 @@
     "start": "cross-env NODE_ENV=development PORT=3003 node ./bin/www",
     "start:prod": "cross-env NODE_ENV=production PORT=3003 node ./bin/www",
     "start:client": "cross-env NODE_ENV=development CLIENT_RENDER=1 PORT=3003 PORT=3003 node ./bin/www",
+    "prebuild:prod": "rm -rf ./static/javascript",
     "build:prod": "cross-env NODE_ENV=production webpack --config ./build/webpack.config.js --progress --hide-modules",
     "build:dev": "cross-env NODE_ENV=development webpack --config ./build/webpack.config.js --progress --hide-modules",
     "build:show-dev": "cross-env NODE_ENV=development SHOW=yes webpack --config ./build/webpack.config.js --progress --hide-modules",

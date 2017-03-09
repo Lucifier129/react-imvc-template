@@ -7,20 +7,6 @@ var OptimizeJsPlugin = require("optimize-js-plugin")
 var banner = `last-modify-date:${new Date().toLocaleString()}`
 var outputPath = path.join(__dirname, '../static/javascript')
 var alias = {
-  /**
-   * 将 moment 指向特殊构造的 share/moment 文件夹
-   * 不改变引用方式，在浏览器端可以减少体积
-   * 在 Node.js 里没有 webpack alias，会找真实的地址 node_modules/moment
-   * 如果在浏览器端里需要引用更多 moment 里的模块
-   * 需要从 node_modules/moment 里按照一致的目录结构，把模块拷贝至 share/moment
-   */
-  'moment': path.join(__dirname, '../src/share/moment'),
-  /**
-   * rome package 里有很多跟 babel-polyfill 重复的 polyfill 文件
-   * 抽取出来，造一个干净版，用法不变
-   */
-  'rome': path.join(__dirname, '../src/share/rome'),
-  'node_modules': path.join(__dirname, '../node_modules'),
   // 'react': 'react-lite',
   // 'react-dom': 'react-lite',
 }
