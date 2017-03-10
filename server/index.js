@@ -84,6 +84,10 @@ if (process.env.NODE_ENV === 'development') {
   )
 }
 
+if (process.env.NODE_ENV === 'development') {
+  app.use('/test_server', require('./route/test').default)
+}
+
 app.use(page)
 
 // catch 404 and forward to error handler

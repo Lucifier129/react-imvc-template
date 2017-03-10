@@ -414,5 +414,5 @@ export default class Controller {
 }
 
 function View () {
-  return <noscript />
+  return false
 }
