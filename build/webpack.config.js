@@ -4,11 +4,8 @@ var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlug
 var StatsPlugin = require('./webpack.stats.plugin')
 var OptimizeJsPlugin = require("optimize-js-plugin")
 
-var banner = `last-modify-date:${new Date().toLocaleString()}`
 var outputPath = path.join(__dirname, '../dest')
 var alias = {
-  // 'react': 'react-lite',
-  // 'react-dom': 'react-lite',
 }
 var entry = {
   index: './src/index',
@@ -25,7 +22,7 @@ var entry = {
 }
 var output = {
   path: outputPath,
-  filename: '[name].js',
+  filename: `[name].js`,
   chunkFilename: '[name].js'
 }
 
@@ -56,7 +53,7 @@ if (process.env.NODE_ENV === 'production') {
   plugins = plugins.concat([
 
       // banner
-      new webpack.BannerPlugin(banner),
+      // new webpack.BannerPlugin(banner),
       new webpack.optimize.DedupePlugin(),
       // minify JS
       new webpack.optimize.UglifyJsPlugin({
@@ -68,10 +65,6 @@ if (process.env.NODE_ENV === 'production') {
           sourceMap: false
       })
     ])
-    // Object.assign(alias, {
-    //     'react': 'react-lite',
-    //     'react-dom': 'react-lite',
-    // })
   watch = false
 }
 
@@ -81,15 +74,10 @@ if (process.env.SHOW === 'yes') {
       // Automatically open analyzer page in default browser
       openAnalyzer: true,
       // Analyzer HTTP-server port
-      analyzerPort: 8888
+      analyzerPort: 8090
     })
   ])
 }
-
-// Object.assign(alias, {
-//     'react': 'react-lite',
-//     'react-dom': 'react-lite',
-// })
 
 module.exports = {
   watch: watch,

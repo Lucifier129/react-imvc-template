@@ -13,7 +13,9 @@ var config = {
 	},
 }
 
+var chalk = require('chalk')
 var gulp = require('gulp')
+var gutil = require('gulp-util')
 var plumber = require('gulp-plumber')
 var cleanCSS = require('gulp-clean-css')
 var htmlmin = require('gulp-htmlmin')
@@ -27,8 +29,9 @@ gulp.task('minify-css', function() {
 			debug: true,
 			compatibility: 'ie7'
 		}, function(details) {
-			console.log(details.name + ': ' + details.stats.originalSize)
-			console.log(details.name + ': ' + details.stats.minifiedSize)
+			var percent = (details.stats.minifiedSize / details.stats.originalSize * 100).toFixed(2)
+			var message = `${details.name}(${chalk.green(percent)}%)`
+			gutil.log('gulp-clean-css:', message)
 		}))
 		.pipe(gulp.dest(config.css.dest))
 })
