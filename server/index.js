@@ -7,9 +7,10 @@ import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import favicon from 'serve-favicon'
 import helmet from 'helmet'
+import ReactViews from 'express-react-views'
 import pkg from '../package'
-import createViewEngine from './middleware/createViewEngine'
 import shareRoot from './middleware/shareRoot'
+import wrapRender from './middleware/wrapRender'
 import config from './config'
 import page from './route/page'
 
@@ -23,15 +24,22 @@ app.use(compression())
 // app.use(favicon(path.join(__dirname, '../static/favicon.ico')))
 
 app.engine(
-  'html',
-  createViewEngine({
-    defaults: config
+  'js',
+  ReactViews.createEngine({
+    beautify: process.env.NODE_ENV === 'development',
+    transformViews: false
   })
 )
 
 // view engine setup
 app.set('views', __dirname + '/view')
-app.set('view engine', 'html')
+app.set('view engine', 'js')
+
+app.use(
+  wrapRender({
+    defaults: config
+  })
+)
 
 app.use(logger('dev'))
 app.use(bodyParser.json())

@@ -8,7 +8,6 @@ import Input from '../../component/Input'
 import Menu from '../component/Menu'
 import Style from '../../component/Style'
 import Preload from '../../component/Preload'
-import DatePicker from '../../component/DatePicker'
 import Upload from 'rc-upload'
 
 /**
@@ -276,9 +275,7 @@ function View ({ state, handlers }) {
         </button>
       </div>
       {!!state.imgSrc && <img src={state.imgSrc} />}
-      <div>
-        <Input as={DatePicker} name='date' />
-      </div>
+      <div />
     </div>
   )
 }

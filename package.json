@@ -75,6 +75,7 @@
     "debug": "~2.2.0",
     "downloadjs": "^1.4.7",
     "express": "~4.14.0",
+    "express-react-views": "^0.10.2",
     "helmet": "^3.1.0",
     "html-entities": "1.0.10",
     "lodash": "^4.15.0",
