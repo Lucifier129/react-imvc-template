@@ -72,6 +72,7 @@ router.all('*', async (req, res, next) => {
     isServer: true,
     isClient: false,
     basename: req.basename || '',
+    publicPath: config.publicPath,
     // 服务端用 http 协议，浏览器端让浏览器自动补全协议
     restfulApi: 'http:' + config.serverRestfulApi,
     locationOrigin: 'http:' + config.locationOrigin,

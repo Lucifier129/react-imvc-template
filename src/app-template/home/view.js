@@ -1,10 +1,12 @@
 import React from 'react'
 import Menu from '../component/Menu'
 import Input from '../../component/Input'
+import Style from '../../component/Style'
 
 export default function View ({ state, handlers }) {
   return (
     <div>
+      <Style name='test' />
       <Menu />
       <div>
         <h1>count: {state.count}</h1>

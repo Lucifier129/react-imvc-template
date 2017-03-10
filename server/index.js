@@ -56,28 +56,33 @@ app.get('/slbhealthcheck.html', (req, res) => {
 
 // shareRoot 中间件把 config.basename 裁剪了，所以这里也裁剪一下才可以匹配成功
 let staticPublicPath = config.publicPath.replace(config.basename, '')
-
-// 开发模式用 webpack-dev-middleware 代理 js 文件
 if (process.env.NODE_ENV === 'development') {
+  // 开发模式用 webpack-dev-middleware 代理 js 文件
   var setupDevEnv = require('../build/setup-dev-env')
   app.use(setupDevEnv.setupClient(staticPublicPath))
+
+  // 开发模式里，用 src 里的静态资源
+  app.use(staticPublicPath, express.static(path.join(__dirname, '../src')))
+
+  // 开发模式支持 mock 功能
+  app.use('/mock', (req, res, next) => {
+    let {
+      url: target
+    } = req
+    let filePath = path.join(__dirname, '../src', `${target}.json`)
+    try {
+      let data = fs.readFileSync(filePath, 'utf-8').toString()
+      res.json(JSON.parse(data))
+    } catch (error) {
+      next(error)
+    }
+  })
+} else {
+  app.use(
+    staticPublicPath,
+    express.static(path.join(__dirname, config.staticPath))
+  )
 }
-
-app.use(
-  staticPublicPath,
-  express.static(path.join(__dirname, config.staticPath))
-)
-
-app.use('/mock', (req, res, next) => {
-  let { url: target } = req
-  let filePath = path.join(__dirname, '../src', `${target}.json`)
-  try {
-    let data = fs.readFileSync(filePath, 'utf-8').toString()
-    res.json(JSON.parse(data))
-  } catch (error) {
-    next(error)
-  }
-})
 
 app.use(page)
 
@@ -95,7 +100,11 @@ app.use(function (req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function (err, req, res, next) {
     res.status(err.status || 500)
-    res.send(err.stack || err.message)
+    var message = (err.message + '\n' + err.stack)
+      .split('\n')
+      .map(item => `<p style="margin:0;padding:0">${item}</p>`)
+      .join('')
+    res.send(message)
   })
 }
 

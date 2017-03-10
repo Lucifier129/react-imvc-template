@@ -6,6 +6,9 @@ import * as model from './model'
 const { initialState, ...actions } = model
 
 export default class Test extends Controller {
+  preload = {
+    test: '/app-template/css/test.css'
+  };
   View = View; // React 根组件
   initialState = initialState; // 初始化状态
   actions = actions; // action 函数
