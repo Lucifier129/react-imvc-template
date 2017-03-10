@@ -32,7 +32,7 @@ app.engine(
 )
 
 // view engine setup
-app.set('views', __dirname + '/view')
+app.set('views', path.join(__dirname, 'view'))
 app.set('view engine', 'js')
 
 app.use(
