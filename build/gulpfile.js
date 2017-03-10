@@ -1,18 +1,17 @@
 var config = {
 	css: {
-		src: ['src/**/*.css'],
-		dest: 'dest'
+		src: ['../src/**/*.css'],
+		dest: '../dest'
 	},
 	html: {
-		src: ['src/**/*.(html|htm)'],
-		dest: 'dest'
+		src: ['../src/**/*.(html|htm)'],
+		dest: '../dest'
 	},
 	img: {
-		src: ['src/**/*.(jpg|jpeg|png|gif)'],
-		dest: 'dest'
+		src: ['../src/**/*.jpg'],
+		dest: '../dest'
 	},
 }
-
 
 var gulp = require('gulp')
 var plumber = require('gulp-plumber')

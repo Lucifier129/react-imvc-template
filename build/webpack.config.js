@@ -5,7 +5,7 @@ var StatsPlugin = require('./webpack.stats.plugin')
 var OptimizeJsPlugin = require("optimize-js-plugin")
 
 var banner = `last-modify-date:${new Date().toLocaleString()}`
-var outputPath = path.join(__dirname, '../static/javascript')
+var outputPath = path.join(__dirname, '../dest')
 var alias = {
   // 'react': 'react-lite',
   // 'react-dom': 'react-lite',
@@ -114,7 +114,7 @@ module.exports = {
       loader: 'bundle-loader',
       query: {
         lazy: true,
-        name: '[1]-[folder]',
+        name: 'app-[1]/js/[folder]',
         regExp: /[\/\\]app-([^\/\\]+)[\/\\]/.source
       },
       exclude: /node_modules/
