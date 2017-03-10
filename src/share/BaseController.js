@@ -124,7 +124,7 @@ export default class Controller {
 		 * 服务端得手动设置，可以从 context 对象里取 cookie
 		 */
     if (context.isServer) {
-      finalOptions.headers['Cookie'] = context.cookie
+      finalOptions.headers['Cookie'] = context.req.headers.cookie || ''
     }
 
     let fetchData = fetch(finalUrl, finalOptions)

@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom'
 import createApp from 'create-app/lib/client'
 import routes from './routes'
 
-__webpack_public_path__ = window.__PUBLIC_PATH__ + '/javascript/'
+__webpack_public_path__ = window.__PUBLIC_PATH__ + '/'
 const __APP_SETTINGS__ = window.__APP_SETTINGS__ || {}
 
 const webpackLoader = loadModule =>

@@ -8,10 +8,14 @@ module.exports = function shareRoot (rootPath) {
 
   var ROOT_RE = new RegExp('^' + rootPath)
   return function (req, res, next) {
-    req.url = req.url.replace(ROOT_RE, '')
-    if (req.url === '') {
-      req.url = '/'
+    if (ROOT_RE.test(req.url)) {
+      req.url = req.url.replace(ROOT_RE, '')
+      req.basename = rootPath
+      if (req.url === '') {
+        req.url = '/'
+      }
     }
+
     next()
   }
 }

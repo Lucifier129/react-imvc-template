@@ -6,9 +6,9 @@ var MFS = require('memory-fs')
 var clientConfig = require('./webpack.config')
 var serverConfig = require('./webpack.config.server')
 
-exports.setupClient = function setupClient() {
+exports.setupClient = function setupClient(publicPath) {
 	var clientDevMiddleware = webpackDevMiddleware(webpack(clientConfig), {
-		publicPath: `/static/javascript/`,
+		publicPath: publicPath,
 		stats: {
 			colors: true,
 			chunks: false,

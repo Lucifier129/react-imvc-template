@@ -21,19 +21,6 @@ export default function DefaultLayout (props) {
       </head>
       <body>
         {props.children}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-          (function() {
-            window.__INITIAL_STATE__ = ${JSON.stringify(props.initialState)}
-            window.__APP_SETTINGS__ = ${JSON.stringify(props.appSettings)}
-            window.__PUBLIC_PATH__ = '${props.publicPath}'
-          })()
-        `
-          }}
-        />
-        <script src={`${props.publicPath}/javascript/${props.assets.vendor}`} />
-        <script src={`${props.publicPath}/javascript/${props.assets.index}`} />
       </body>
     </html>
   )

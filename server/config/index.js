@@ -3,21 +3,21 @@ import pkg from '../../package'
 const port = process.env.PORT || pkg.config.port || 3000
 
 const fat = {
-  locationOrigin: '//localhost:3003',
+  locationOrigin: `//localhost:${port}`,
   restfulApi: '',
   serverLocationOrigin: `//localhost:${port}`,
   serverRestfulApi: ''
 }
 
 const uat = {
-  locationOrigin: '//localhost:3003',
+  locationOrigin: `//localhost:${port}`,
   restfulApi: '',
   serverLocationOrigin: `//localhost:${port}`,
   serverRestfulApi: ''
 }
 
 const prod = {
-  locationOrigin: '//localhost:3003',
+  locationOrigin: `//localhost:${port}`,
   restfulApi: '',
   serverLocationOrigin: `//localhost:${port}`,
   serverRestfulApi: ''
@@ -38,8 +38,8 @@ const config = {
   ending: '',
   basename: basename,
   publicPath: basename + '/static',
-  staticPath: '../static',
-  initialState: 'undefined',
+  staticPath: '../dest',
+  initialState: undefined,
   content: '',
   appSettings: { ...envConfig },
   ...envConfig

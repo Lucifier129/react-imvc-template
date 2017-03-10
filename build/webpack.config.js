@@ -30,7 +30,7 @@ var output = {
 }
 
 var plugins = [
-  new StatsPlugin('../stats.json'),
+  new StatsPlugin('stats.json'),
   // new webpack.optimize.OccurrenceOrderPlugin(false),
   // extract vendor chunks for better caching
   new webpack.optimize.CommonsChunkPlugin({

@@ -54,14 +54,15 @@ app.get('/slbhealthcheck.html', (req, res) => {
   res.send('slbhealthcheck ok')
 })
 
+// shareRoot 中间件把 config.basename 裁剪了，所以这里也裁剪一下才可以匹配成功
+let staticPublicPath = config.publicPath.replace(config.basename, '')
+
 // 开发模式用 webpack-dev-middleware 代理 js 文件
 if (process.env.NODE_ENV === 'development') {
   var setupDevEnv = require('../build/setup-dev-env')
-  app.use(setupDevEnv.setupClient())
+  app.use(setupDevEnv.setupClient(staticPublicPath))
 }
 
-// shareRoot 中间件把 config.basename 裁剪了，所以这里也裁剪一下才可以匹配成功
-let staticPublicPath = config.publicPath.replace(config.basename, '')
 app.use(
   staticPublicPath,
   express.static(path.join(__dirname, config.staticPath))

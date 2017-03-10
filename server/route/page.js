@@ -4,127 +4,138 @@ import { renderToString } from 'react-dom/server'
 import createApp from 'create-app/lib/server'
 import config from '../config'
 import routes from '../../src/routes'
-import stats from '../../static/stats'
 
 const router = Router()
 export default router
 
-const plainStats = Object.keys(stats).reduce((result, assetName) => {
-  let value = stats[assetName]
-  result[assetName] = Array.isArray(value) ? value[0] : value
-  return result
-}, {})
-const debugStats = Object.keys(plainStats).reduce((result, assetName) => {
-  result[assetName] = `${assetName}.js`
-  return result
-}, {})
-
-const basename = config.basename
-const shareContext = {
-  basename,
-  isClient: false,
-  isServer: true,
-  user: null,
-  publicPath: config.publicPath
-}
 const serverAppSettings = {
-  basename,
   loader: module => module.default || module,
   routes: routes,
   viewEngine: {
     render: renderToString
-  },
-  context: shareContext
+  }
 }
 
 let app = createApp(serverAppSettings)
 
-let isClientRender = process.env.CLIENT_RENDER === '1'
+let assets = null
+if (process.env.NODE_ENV === 'development') {
+  // 开发模式用 webpack-dev-middleware 获取 assets
+  router.use((req, res, next) => {
+    assets = getAssets(res.locals.webpackStats.toJson().assetsByChunkName)
+    next()
+  })
+} else {
+  // 生产模式直接用编译好的资源表
+  assets = getAssets(require('../dest/stats'))
+}
 
-// 开发模式动态编译 src/routes
-if (process.env.NODE_ENV === 'development' && !isClientRender) {
+// 纯浏览器端渲染模式，用前置中间件拦截所有请求
+if (process.env.CLIENT_RENDER === '1') {
+  router.all('*', (req, res) => {
+    let clientAppSettings = {
+      basename: req.basename || '',
+      type: 'createHistory',
+      context: {
+        basename: req.basename || '',
+        preload: {},
+        isClient: true,
+        isServer: false,
+        publicPath: config.publicPath,
+        restfulApi: config.restfulApi,
+        locationOrigin: config.locationOrigin
+      }
+    }
+    res.render('page', {
+      assets: assets,
+      appSettings: clientAppSettings
+    })
+  })
+} else if (process.env.NODE_ENV === 'development') {
+  // 带服务端渲染模式的开发环境，需要动态编译 src/routes
   var setupDevEnv = require('../../build/setup-dev-env')
   setupDevEnv.setupServer({
     handleHotModule: routes => {
-      app = createApp({ ...serverAppSettings, routes })
+      app = createApp({
+        ...serverAppSettings,
+        routes
+      })
     }
   })
 }
 
 // handle page
 router.all('*', async (req, res, next) => {
-  let url = req.url
   let serverContext = {
-    ...shareContext,
-    cookie: req.headers.cookie || '',
-    // 服务端用 http 写一，浏览器端让浏览器自动补全协议
+    req,
+    res,
+    isServer: true,
+    isClient: false,
+    basename: req.basename || '',
+    // 服务端用 http 协议，浏览器端让浏览器自动补全协议
     restfulApi: 'http:' + config.serverRestfulApi,
     locationOrigin: 'http:' + config.locationOrigin,
-    serverLocationOrigin: 'http:' + config.serverLocationOrigin,
-    preload: {},
-    req,
-    res
-  }
-  let clientContext = {
     /**
+     * serverLocationOrigin 是为了防止因为不能访问外网而导致的错误
+     * 它是 localhost:${port} 的形式
+     */
+    serverLocationOrigin: 'http:' + config.serverLocationOrigin,
+    preload: {}
+  }
+
+  try {
+    let {
+      content,
+      controller
+    } = await app.render(req.url, serverContext)
+    /**
+       * 如果没有返回 content
+       * 不渲染内容，controller 可能通过 context.res 对象做了重定向或者渲染
+       */
+    if (!content) {
+      return
+    }
+
+    let clientAppSettings = {
+      basename: req.basename,
+      type: 'createHistory',
+      context: {
+        /**
          * 预加载的内容不放到 clientContext 中
          * 在 client entry.js 入口文件里用 dom 操作去拿内容
          * 见 src/share/BaseController
          */
-    preload: {},
-    ...shareContext,
-    restfulApi: config.restfulApi,
-    locationOrigin: config.locationOrigin
-  }
-  let clientAppSettings = {
-    basename,
-    type: 'createHistory',
-    context: clientContext
-  }
-
-  let assets = req.query.debug === '1' ? debugStats : plainStats
-
-  // 开发模式用 webpack-dev-middleware 获取 assets
-  if (process.env.NODE_ENV === 'development') {
-    let assetsByChunkName = res.locals.webpackStats.toJson().assetsByChunkName
-    assets = Object.keys(assetsByChunkName).reduce((result, assetName) => {
-      let value = assetsByChunkName[assetName]
-      result[assetName] = Array.isArray(value) ? value[0] : value
-      return result
-    }, {})
-  }
-
-  if (isClientRender) {
-    res.render('layout', {
-      assets,
-      appSettings: clientAppSettings
-    })
-    return
-  }
-
-  try {
-    let { content, controller } = await app.render(url, serverContext)
-    /**
-         * 如果没有返回 content
-         * 不渲染内容，controller 可能通过 context.res 对象做了重定向或者渲染
-         */
-    if (!content) {
-      return
+        preload: {},
+        basename: req.basename || '',
+        publicPath: config.publicPath,
+        restfulApi: config.restfulApi,
+        locationOrigin: config.locationOrigin
+      }
     }
+
     let initialState = controller.store
       ? controller.store.getState()
       : undefined
     let htmlConfigs = initialState ? initialState.html : undefined
     let layout = controller.layout || 'page'
-
-    res.render(layout, {
+    let data = {
       ...htmlConfigs,
       assets,
       content,
       initialState,
       appSettings: clientAppSettings
-    })
+    }
+
+    res.render(layout, data)
   } catch (error) {
     next(error)
   }
 })
+
+function getAssets (stats) {
+  return Object.keys(stats).reduce((result, assetName) => {
+    let value = stats[assetName]
+    result[assetName] = Array.isArray(value) ? value[0] : value
+    return result
+  }, {})
+}
