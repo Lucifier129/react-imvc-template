@@ -1,5 +1,3 @@
-import 'moment/locale/zh-cn'
-// import 'moment/locale/en-gb'
 import ReactDOM from 'react-dom'
 import createApp from 'create-app/lib/client'
 import routes from './routes'
@@ -32,16 +30,6 @@ const appSettings = {
   loader: webpackLoader,
   routes,
   viewEngine
-}
-
-function firstDifferenceIndex (string1, string2) {
-  var minLen = Math.min(string1.length, string2.length)
-  for (var i = 0; i < minLen; i++) {
-    if (string1.charAt(i) !== string2.charAt(i)) {
-      return i
-    }
-  }
-  return string1.length === string2.length ? -1 : minLen
 }
 
 /**
