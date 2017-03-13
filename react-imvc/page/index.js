@@ -30,6 +30,8 @@ if (process.env.NODE_ENV === 'development') {
   assets = getAssets(require('../../dest/stats'))
 }
 
+let layoutView = config.layout || path.join(__dirname, 'view')
+
 // 纯浏览器端渲染模式，用前置中间件拦截所有请求
 if (process.env.CLIENT_RENDER === '1') {
   router.all('*', (req, res) => {
@@ -46,7 +48,7 @@ if (process.env.CLIENT_RENDER === '1') {
         locationOrigin: config.locationOrigin
       }
     }
-    res.render(path.join(__dirname, 'view'), {
+    res.render(layoutView, {
       assets: assets,
       appSettings: clientAppSettings
     })
@@ -126,7 +128,7 @@ router.all('*', async (req, res, next) => {
       appSettings: clientAppSettings
     }
 
-    res.render(path.join(__dirname, 'view'), data)
+    res.render(layoutView, data)
   } catch (error) {
     next(error)
   }
