@@ -1,9 +1,6 @@
 {
-  "index": "index-a9863b.js",
-  "app-template/js/home": "app-template/js/home-f850b0.js",
-  "app-template/js/notfound": "app-template/js/notfound-0b525b.js",
-  "app-demo/js/home": "app-demo/js/home-b390f9.js",
-  "app-demo/js/list": "app-demo/js/list-27882b.js",
-  "app-demo/js/detail": "app-demo/js/detail-4bf904.js",
-  "vendor": "vendor-a9863b.js"
+  "index": "index-5f30d9.js",
+  "app-template/js/home": "app-template/js/home-c323a4.js",
+  "app-template/js/notfound": "app-template/js/notfound-0c9ed2.js",
+  "vendor": "vendor-5f30d9.js"
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Link from '../../component/Link'
+import { Link } from 'react-imvc/component'
 
 export default function Menu () {
   return (

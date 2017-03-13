@@ -1,13 +1,11 @@
-import Controller from '../../share/BaseController'
+import Controller from 'react-imvc/controller'
 import React, { Component } from 'react'
 import ReactDOM, { findDOMNode } from 'react-dom'
 import querystring from 'querystring'
-import * as _ from '../../share/util'
-import * as validator from '../../share/validator'
-import Input from '../../component/Input'
+import * as _ from 'react-imvc/util'
+// import * as validator from '../../share/validator'
 import Menu from '../component/Menu'
-import Style from '../../component/Style'
-import Preload from '../../component/Preload'
+import { Input, Style, Preload } from 'react-imvc/component'
 import Upload from 'rc-upload'
 
 /**

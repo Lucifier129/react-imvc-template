@@ -4,7 +4,7 @@ cd `dirname $0`
 cd ../
 
 start() {
-	node ./current/bin/start.js
+	node ./current/scripts/start.js
 }
 
 pm2 save

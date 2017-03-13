@@ -1,7 +1,6 @@
 import React from 'react'
+import { Input, Style } from 'react-imvc/component'
 import Menu from '../component/Menu'
-import Input from '../../component/Input'
-import Style from '../../component/Style'
 
 export default function View ({ state, handlers }) {
   return (
@@ -29,6 +28,10 @@ export default function View ({ state, handlers }) {
         <div>
           我是展示 ajax 数据的容器：{JSON.stringify(state.test)}
         </div>
+        <img
+          src={`${state.publicPath}/app-template/img/Koala.jpg`}
+          width={200}
+        />
       </div>
     </div>
   )

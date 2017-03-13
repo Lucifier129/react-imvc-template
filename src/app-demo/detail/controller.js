@@ -1,5 +1,5 @@
-import Controller from '../../share/BaseController'
 import React, { Component } from 'react'
+import Controller from 'react-imvc/component'
 import Menu from '../component/Menu'
 
 export default class extends Controller {

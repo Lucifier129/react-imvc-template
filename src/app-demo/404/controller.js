@@ -1,8 +1,8 @@
 import React from 'react'
-import BaseController from '../../share/BaseController'
-import Link from '../../component/Link'
+import Contrller from 'react-imvc/controller'
+import { Link } from 'react-img/component'
 
-export default class NotFound extends BaseController {
+export default class NotFound extends Contrller {
   View = View;
 }
 
