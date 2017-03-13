@@ -5,9 +5,10 @@ var BundleAnalyzerPlugin = require(
 ).BundleAnalyzerPlugin
 var StatsPlugin = require('./webpack.stats.plugin')
 var OptimizeJsPlugin = require('optimize-js-plugin')
+var customAlias = require('../../build.config')
 
 var outputPath = path.join(__dirname, '../../dest')
-var alias = {}
+var alias = Object.assign({}, customAlias)
 var entry = {
   index: path.join(__dirname, '../entry/client'),
   vendor: [
