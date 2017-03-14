@@ -4,13 +4,13 @@
   "private": true,
   "config": {
     "vd": "/test",
-    "port": 3003,
+    "port": 3000,
     "env": "fat"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development PORT=3003 node ./react-imvc/bin/www",
-    "start:prod": "cross-env NODE_ENV=production PORT=3003 node ./react-imvc/bin/www",
-    "start:client": "cross-env NODE_ENV=development CLIENT_RENDER=1 PORT=3003 node ./react-imvc/bin/www",
+    "start": "cross-env NODE_ENV=development PORT=3000 node ./react-imvc/bin/www",
+    "start:prod": "cross-env NODE_ENV=production PORT=3000 node ./react-imvc/bin/www",
+    "start:client": "cross-env NODE_ENV=development CLIENT_RENDER=1 PORT=3000 node ./react-imvc/bin/www",
     "build:prod": "cross-env NODE_ENV=production webpack --config ./react-imvc/build/webpack.config.js --progress --hide-modules",
     "build:dev": "cross-env NODE_ENV=development webpack --config ./react-imvc/build/webpack.config.js --progress --hide-modules",
     "build:show-dev": "cross-env NODE_ENV=development SHOW=yes webpack --config ./react-imvc/build/webpack.config.js --progress --hide-modules",

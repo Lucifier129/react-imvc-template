@@ -5,10 +5,11 @@ var BundleAnalyzerPlugin = require(
 ).BundleAnalyzerPlugin
 var StatsPlugin = require('./webpack.stats.plugin')
 var OptimizeJsPlugin = require('optimize-js-plugin')
-var customAlias = require('../../build.config')
 
-var outputPath = path.join(__dirname, '../../dest')
-var alias = Object.assign({}, customAlias)
+var cwd = process.cwd()
+var customConfig = require(path.join(cwd, 'build.config'))
+var alias = Object.assign({}, customConfig.alias)
+var outputPath = path.join(cwd, 'dest')
 var entry = {
   index: path.join(__dirname, '../entry/client'),
   vendor: [
@@ -100,10 +101,10 @@ module.exports = {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         include: [
-          path.resolve(__dirname, '../../node_modules/react-imvc'),
+          path.resolve(cwd, 'node_modules/react-imvc'),
           path.resolve(
-            __dirname,
-            `../../node_modules/.${require('../package').version}@react-imvc`
+            cwd,
+            `node_modules/.${require('../package').version}@react-imvc`
           )
         ]
       }
@@ -123,7 +124,7 @@ module.exports = {
   },
   plugins: plugins,
   resolve: {
-    extensions: ['', '.js'],
+    extensions: ['', '.js', '.jsx'],
     root: __dirname,
     alias: alias
   }
