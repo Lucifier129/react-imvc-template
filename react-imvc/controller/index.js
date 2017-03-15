@@ -47,7 +47,7 @@ export default class Controller {
   }
 
   // 处理 url 的相对路径或 mock 地址问题
-  prependRestfulBasename = url => {
+  prependRestfulBasename(url) {
     let { context } = this
 
     /**
@@ -69,7 +69,7 @@ export default class Controller {
     }
 
     return context.restfulApi + url
-  };
+  }
 
   /**
 	* 封装重定向方法，根据 server/client 环境不同而选择不同的方式
@@ -79,7 +79,9 @@ export default class Controller {
 
     if (context.isServer) {
       if (!_.isAbsoluteUrl(redirect)) {
-        redirect = this.prependBasename(redirect)
+        // 这里不使用 prependBasename 因为不需要 locationOrigin
+        // 302 重定向可以自动适配 locationOrigin
+        redirect = context.basename + redirect
       }
       context.res.redirect(redirect)
     } else if (context.isClient) {
@@ -104,7 +106,7 @@ export default class Controller {
 	 * options.json === false 不自动转换为 json
 	 * options.timeout:number 超时时间
 	 */
-  fetch = (url, options = {}) => {
+  fetch(url, options = {}) {
     let { context } = this
     // 补全 url
     let finalUrl = this.prependRestfulBasename(url)
@@ -115,7 +117,6 @@ export default class Controller {
       ...options,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
         ...options.headers
       }
     }
@@ -159,11 +160,11 @@ export default class Controller {
     }
 
     return Promise.race(promiseList)
-  };
+  }
   /**
 	 * 预加载 css 样式等资源
 	*/
-  fetchPreload = preload => {
+  fetchPreload(preload) {
     preload = preload || this.preload
     let keys = Object.keys(preload)
     if (!preload || keys.length === 0) {
@@ -206,8 +207,8 @@ export default class Controller {
       })
     })
     return Promise.all(list)
-  };
-  subscriber = data => {
+  }
+  subscriber(data) {
     let { context, logger } = this
     if (context.isServer) {
       return
@@ -217,7 +218,7 @@ export default class Controller {
     if (this.stateDidChange) {
       this.stateDidChange(data)
     }
-  };
+  }
   async init () {
     let {
       initialState,
@@ -227,6 +228,10 @@ export default class Controller {
       location
     } = this
 
+    // 在 init 方法里 bind this，这样 fetch 可以支持继承
+    // 如果用 fetch = (url, option = {}) => {} 的写法，它不是原型方法，无法继承
+    this.fetch = this.fetch.bind(this)
+
     let globalInitialState
 
     // 服务端把 initialState 吐在 html 里的全局变量 __INITIAL_STATE__ 里
@@ -234,6 +239,7 @@ export default class Controller {
       globalInitialState = __INITIAL_STATE__
       __INITIAL_STATE__ = undefined
     }
+
     let finalInitialState = {
       ...initialState,
       ...globalInitialState,
@@ -312,7 +318,7 @@ export default class Controller {
         name: this.name || location.pattern
       })
       let unsubscribeList = []
-      let unsubscribe = store.subscribe(this.subscriber)
+      let unsubscribe = store.subscribe(this.subscriber.bind(this))
       unsubscribeList.push(unsubscribe)
 
       // 监听路由跳转
