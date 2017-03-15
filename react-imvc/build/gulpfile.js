@@ -10,6 +10,10 @@ var config = {
 	img: {
 		src: ['../../src/**/*.@(jpg|jepg|png|gif|ico)'],
 		dest: '../../dest'
+	},
+	js: {
+		src: ['../../src/lib/**/*.js'],
+		dest: '../../dest/lib'
 	}
 }
 
@@ -69,4 +73,4 @@ gulp.task('minify-js', () =>
 	.pipe(uglify())
 	.pipe(gulp.dest(config.js.dest)))
 
-gulp.task('default', ['minify-html', 'minify-css', 'minify-img'])
+gulp.task('default', ['minify-html', 'minify-css', 'minify-img', 'minify-js'])

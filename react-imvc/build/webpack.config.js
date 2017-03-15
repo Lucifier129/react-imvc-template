@@ -13,13 +13,13 @@ var outputPath = path.join(cwd, 'dest')
 var entry = {
   index: path.join(__dirname, '../entry/client'),
   vendor: [
+    'babel-polyfill',
     'react',
     'react-dom',
     'relite',
     'create-app',
     'classnames',
     'querystring',
-    'babel-polyfill',
     'whatwg-fetch'
   ]
 }
@@ -63,13 +63,29 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.optimize.DedupePlugin(),
     // minify JS
     new webpack.optimize.UglifyJsPlugin({
+      beautify: true,
       compress: {
+        unused: true,
+        drop_console: true,
+        drop_debugger: true,
+        dead_code: true,
+        properties: false,
+        screw_ie8: false,
         warnings: false
-      }
-    }),
-    new OptimizeJsPlugin({
-      sourceMap: false
+      },
+      mangle: false,
+      mangle: {
+        screw_ie8: false,
+      },
+      output: {
+        screw_ie8: false,
+        ascii_only: true,
+      },
+      comments: false,
     })
+    // new OptimizeJsPlugin({
+    //   sourceMap: false
+    // })
   ])
   watch = false
 }
@@ -91,36 +107,31 @@ module.exports = {
   entry: entry,
   output: output,
   module: {
-    preLoaders: [
-      {
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
+    preLoaders: [{
+      test: /\.jsx?$/,
+      loader: 'babel-loader',
+      exclude: /node_modules/
+    }, {
+      test: /\.jsx?$/,
+      loader: 'babel-loader',
+      include: [
+        path.resolve(cwd, 'node_modules/react-imvc'),
+        path.resolve(
+          cwd,
+          `node_modules/.${require('../package').version}@react-imvc`
+        )
+      ]
+    }],
+    postLoaders: [{
+      test: /controller\.jsx?$/,
+      loader: 'bundle-loader',
+      query: {
+        lazy: true,
+        name: 'app-[1]/js/[folder]',
+        regExp: /[\/\\]app-([^\/\\]+)[\/\\]/.source
       },
-      {
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
-        include: [
-          path.resolve(cwd, 'node_modules/react-imvc'),
-          path.resolve(
-            cwd,
-            `node_modules/.${require('../package').version}@react-imvc`
-          )
-        ]
-      }
-    ],
-    postLoaders: [
-      {
-        test: /controller\.jsx?$/,
-        loader: 'bundle-loader',
-        query: {
-          lazy: true,
-          name: 'app-[1]/js/[folder]',
-          regExp: /[\/\\]app-([^\/\\]+)[\/\\]/.source
-        },
-        exclude: /node_modules/
-      }
-    ]
+      exclude: /node_modules/
+    }]
   },
   plugins: plugins,
   resolve: {
