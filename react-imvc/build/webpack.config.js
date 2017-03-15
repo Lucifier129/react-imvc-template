@@ -63,29 +63,26 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.optimize.DedupePlugin(),
     // minify JS
     new webpack.optimize.UglifyJsPlugin({
-      beautify: true,
       compress: {
         unused: true,
         drop_console: true,
         drop_debugger: true,
         dead_code: true,
         properties: false,
+        warnings: false,
         screw_ie8: false,
-        warnings: false
       },
-      mangle: false,
       mangle: {
-        screw_ie8: false,
+        screw_ie8: false
       },
       output: {
-        screw_ie8: false,
-        ascii_only: true,
+        screw_ie8: false
       },
-      comments: false,
+      comments: false
+    }),
+    new OptimizeJsPlugin({
+      sourceMap: false
     })
-    // new OptimizeJsPlugin({
-    //   sourceMap: false
-    // })
   ])
   watch = false
 }

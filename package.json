@@ -21,7 +21,7 @@
     "test": "cross-env NODE_ENV=test mocha --opts mocha.opts",
     "lint:staged": "lint-staged",
     "prettier": "standard-prettier src/**/*.js routes/**/*.js ./react-imvc/**/*.js",
-    "pkg": "npm run build:prod",
+    "pkg": "npm run build",
     "prepkg": "git pull --rebase origin release",
     "postpkg": "git add -A && git commit -m auto-pkg && git push origin release"
   },
@@ -94,7 +94,7 @@
     "rimraf": "^2.6.1",
     "serve-favicon": "^2.3.0",
     "standard-prettier": "^1.0.0",
-    "webpack": "^1.13.3",
+    "webpack": "1.13.2",
     "webpack-bundle-analyzer": "^2.3.1",
     "webpack-dev-middleware": "^1.9.0",
     "whatwg-fetch": "^1.0.0"
