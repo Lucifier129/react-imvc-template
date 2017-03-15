@@ -27,12 +27,13 @@ export default class Test extends Controller {
     INCREMENT(state.num) // 调用 action，更新 store，触发自动更新 view
   };
 
-  handleDecre = event => {
+  handleDecre = async event => {
     // 如果数据处理比较简单，
     // 可以使用内置的 action UPDATE_STATE 直接将新状态合并到 state
     let { store } = this
     let state = store.getState()
     let { UPDATE_STATE } = store.actions
+    await new Promise(resolve => setTimeout(resolve, 1000))
     UPDATE_STATE({
       count: state.count - state.num
     })
