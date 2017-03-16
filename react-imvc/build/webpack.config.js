@@ -20,7 +20,7 @@ var entry = {
     'create-app',
     'classnames',
     'querystring',
-    'whatwg-fetch'
+    'fetch-ie8'
   ]
 }
 var output = {
@@ -63,6 +63,7 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.optimize.DedupePlugin(),
     // minify JS
     new webpack.optimize.UglifyJsPlugin({
+      // beautify: true,
       compress: {
         unused: true,
         drop_console: true,
@@ -72,6 +73,7 @@ if (process.env.NODE_ENV === 'production') {
         warnings: false,
         screw_ie8: false,
       },
+      mangle: false,
       mangle: {
         screw_ie8: false
       },
@@ -128,6 +130,11 @@ module.exports = {
         regExp: /[\/\\]app-([^\/\\]+)[\/\\]/.source
       },
       exclude: /node_modules/
+    }, {
+      test: /\.(js|jsx)(-lazy)?$/,
+      // babel-rumtime 也有 a.default 形式的代码，不能排除
+      //exclude: /node_modules/,
+      loaders: ['es3ify-loader']
     }]
   },
   plugins: plugins,

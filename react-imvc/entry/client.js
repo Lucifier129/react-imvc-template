@@ -38,7 +38,7 @@ const appSettings = {
 const preload = {}
 Array.from(document.querySelectorAll('[data-preload]')).forEach(elem => {
   let name = elem.getAttribute('data-preload')
-  let content = elem.textContent
+  let content = elem.textContent || elem.innerHTML
   preload[name] = content
 })
 appSettings.context.preload = preload

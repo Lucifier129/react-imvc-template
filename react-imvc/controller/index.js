@@ -1,7 +1,7 @@
 // base controller class
 import React, { Component } from 'react'
 import { createStore, createLogger } from 'relite'
-import * as _ from '../util'
+import _ from '../util'
 import setRecorder from './recorder'
 import BaseView from '../component/BaseView'
 import * as shareActions from './actions'

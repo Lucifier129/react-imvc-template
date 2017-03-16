@@ -1,38 +1,52 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-export function toJson (res) {
+export default {
+  toJson,
+  toText,
+  isAbsoluteUrl,
+  mapValues,
+  isImage,
+  isThenable,
+  registerModal,
+  openModal,
+  closePopup,
+  setValueByPath,
+  getValueByPath,
+}
+
+function toJson (res) {
   return res.json()
 }
 
-export function toText (res) {
+function toText (res) {
   return res.text()
 }
 
-export function isAbsoluteUrl (url) {
+function isAbsoluteUrl (url) {
   return url.indexOf('http') === 0 || url.indexOf('//') === 0
 }
 
-export function mapValues (obj, fn) {
+function mapValues (obj, fn) {
   return Object.keys(obj).reduce((result, key) => {
     result[key] = fn(obj[key], key)
     return result
   }, {})
 }
 
-export function isImage (url) {
+function isImage (url) {
   let extname = url.substr(url.lastIndexOf('.') + 1)
   return /(jpg|png|gif|jepg)/.test(extname)
 }
 
-export function isThenable (obj) {
+function isThenable (obj) {
   return obj != null && typeof obj.then === 'function'
 }
 
 // 弹窗公共方法
 const modals = {}
 
-export let registerModal = (type, Modal) => {
+function registerModal(type, Modal) {
   if (typeof type === 'object') {
     return Object.keys(type).forEach(key => registerModal(key, type[key]))
   }
@@ -42,7 +56,7 @@ export let registerModal = (type, Modal) => {
 // 获取DOM结点
 let getModalContainer = () => document.getElementById('modal')
 
-export let openModal = ({ type, props }) => {
+function openModal({ type, props }) {
   let Modal = modals[type]
   if (!Modal) {
     return
@@ -55,11 +69,11 @@ export let openModal = ({ type, props }) => {
   ReactDOM.render(<Modal {...props} onClose={onClose} />, getModalContainer())
 }
 
-export let closePopup = () => {
+function closePopup() {
   ReactDOM.unmountComponentAtNode(getModalContainer())
 }
 
-export function setValueByPath (obj, path, value) {
+function setValueByPath (obj, path, value) {
   path = !Array.isArray(path) ? path.split('.') : path
   let list = path.reduce(
     (list, key, index) => {
@@ -77,7 +91,7 @@ export function setValueByPath (obj, path, value) {
   return list[0]
 }
 
-export function getValueByPath (obj, path) {
+function getValueByPath (obj, path) {
   path = !Array.isArray(path) ? path.split('.') : path
   return path.reduce((ret, key) => ret[key], obj)
 }
