@@ -8,10 +8,14 @@
     "env": "fat"
   },
   "scripts": {
+    "install-imvc": "rimraf ./node_modules/react-imvc && ncp ./react-imvc ./node_modules/react-imvc",
+    "postinstall": "npm run install-imvc",
     "start": "cross-env NODE_ENV=development PORT=3000 node ./react-imvc/bin/www",
     "start:prod": "cross-env NODE_ENV=production PORT=3000 node ./react-imvc/bin/www",
+    "start:prod:build": "cross-env NODE_ENV=production BUILD=1 PORT=3000 node ./react-imvc/bin/www",
     "start:client": "cross-env NODE_ENV=development CLIENT_RENDER=1 PORT=3000 node ./react-imvc/bin/www",
     "start:client:prod": "cross-env NODE_ENV=production CLIENT_RENDER=1 PORT=3000 node ./react-imvc/bin/www",
+    "start:client:prod:build": "cross-env NODE_ENV=production CLIENT_RENDER=1 BUILD=1 PORT=3000 node ./react-imvc/bin/www",
     "build:prod": "cross-env NODE_ENV=production webpack --config ./react-imvc/build/webpack.config.js --progress --hide-modules",
     "build:dev": "cross-env NODE_ENV=development webpack --config ./react-imvc/build/webpack.config.js --progress --hide-modules",
     "build:show-dev": "cross-env NODE_ENV=development SHOW=yes webpack --config ./react-imvc/build/webpack.config.js --progress --hide-modules",
@@ -82,6 +86,7 @@
     "memory-fs": "^0.4.1",
     "mocha": "^3.0.2",
     "morgan": "~1.6.1",
+    "ncp": "^2.0.0",
     "node-fetch": "^1.6.3",
     "optimize-js-plugin": "^0.0.4",
     "pm2": "^1.1.3",

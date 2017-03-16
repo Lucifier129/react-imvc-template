@@ -19,7 +19,7 @@ const serverAppSettings = {
 let app = createApp(serverAppSettings)
 
 let assets = null
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development' || process.env.BUILD === '1') {
   // 开发模式用 webpack-dev-middleware 获取 assets
   router.use((req, res, next) => {
     assets = getAssets(res.locals.webpackStats.toJson().assetsByChunkName)
