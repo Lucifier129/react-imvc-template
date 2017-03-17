@@ -3,15 +3,24 @@ import { findDOMNode } from 'react-dom'
 
 export default class OuterClickWrapper extends Component {
   componentDidMount () {
-    document.addEventListener('click', this.handleOutterClick)
+    if (document.addEventListener) {
+      document.addEventListener('click', this.handleOutterClick)
+    } else if (document.attachEvent) {
+      document.attachEvent('onclick', this.handleOutterClick)
+    }
+    
   }
   componentWillUnmount () {
-    document.removeEventListener('click', this.handleOutterClick)
+    if (document.removeEventListener) {
+      document.removeEventListener('click', this.handleOutterClick)
+    } else if (document.detachEvent) {
+      document.detachEvent('onclick', this.handleOutterClick)
+    }
   }
 
   // 结点是否包含结点
   contains (rootNode, node) {
-    if (rootNode.contains) {
+    if (typeof rootNode.contains === 'function') {
       return rootNode.contains(node)
     }
     while (node) {
@@ -29,7 +38,7 @@ export default class OuterClickWrapper extends Component {
       return
     }
     let root = findDOMNode(this)
-    let isContains = this.contains(root, event.target)
+    let isContains = this.contains(root, event.target || event.srcElement)
     if (!isContains) {
       onClick(event)
     }
