@@ -8,7 +8,10 @@ var OptimizeJsPlugin = require('optimize-js-plugin')
 
 var cwd = process.cwd()
 var customConfig = require(path.join(cwd, 'build.config'))
-var alias = Object.assign({}, customConfig.alias)
+var alias = Object.assign({
+  moment: path.join(__dirname, '../share/moment'),
+  rome: path.join(__dirname, '../share/rome'),
+}, customConfig.alias)
 var outputPath = path.join(cwd, 'dest')
 var entry = {
   index: path.join(__dirname, '../entry/client'),
@@ -39,7 +42,7 @@ var plugins = [
   }),
   new webpack.optimize.CommonsChunkPlugin({
     children: true,
-    minChunks: 5
+    minChunks: 3
   }),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(
