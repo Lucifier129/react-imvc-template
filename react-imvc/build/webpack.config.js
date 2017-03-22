@@ -23,7 +23,8 @@ var entry = {
     'create-app',
     'classnames',
     'querystring',
-    'fetch-ie8'
+    'fetch-ie8',
+    path.join(__dirname, '../polyfill')
   ]
 }
 var output = {
