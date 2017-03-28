@@ -33,6 +33,7 @@ const envConfigMap = { fat, uat, prod }
 const envConfig = envConfigMap[env] || envConfigMap.prod
 
 const config = {
+  env: env,
   title: 'test',
   description: 'test-description',
   keywords: 'test',

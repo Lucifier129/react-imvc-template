@@ -40,12 +40,10 @@ if (process.env.CLIENT_RENDER === '1') {
       type: 'createHistory',
       context: {
         basename: req.basename || '',
-        preload: {},
-        isClient: true,
-        isServer: false,
         publicPath: config.publicPath,
         restfulApi: config.restfulApi,
-        locationOrigin: config.locationOrigin
+        locationOrigin: config.locationOrigin,
+        env: config.env,
       }
     }
     res.render(layoutView, {
@@ -83,6 +81,7 @@ router.all('*', async (req, res, next) => {
      * 它是 localhost:${port} 的形式
      */
     serverLocationOrigin: 'http:' + config.serverLocationOrigin,
+    env: config.env,
     preload: {}
   }
 
@@ -112,7 +111,8 @@ router.all('*', async (req, res, next) => {
         basename: req.basename || '',
         publicPath: config.publicPath,
         restfulApi: config.restfulApi,
-        locationOrigin: config.locationOrigin
+        locationOrigin: config.locationOrigin,
+        env: config.env,
       }
     }
 

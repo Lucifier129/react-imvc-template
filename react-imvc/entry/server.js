@@ -43,7 +43,9 @@ app.use(
 )
 
 app.use(logger('dev'))
-app.use(bodyParser.json())
+app.use(bodyParser.json({
+  limit: '10MB'
+}))
 app.use(
   bodyParser.urlencoded({
     extended: false

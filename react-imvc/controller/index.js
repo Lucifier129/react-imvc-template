@@ -240,6 +240,10 @@ export default class Controller {
       __INITIAL_STATE__ = undefined
     }
 
+    if (typeof initialState === 'function') {
+      initialState = initialState(location, context)
+    }
+
     let finalInitialState = {
       ...initialState,
       ...globalInitialState,
