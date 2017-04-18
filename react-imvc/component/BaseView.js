@@ -14,19 +14,6 @@ export default class BaseView extends PureComponent {
     preload: PropTypes.object,
     handleInputChange: PropTypes.func
   };
-  updateDocumentTitle () {
-    let { html } = this.props.context.state
-    if (!html) {
-      return
-    }
-    let { title } = html
-    if (title && title !== document.title) {
-      document.title = title
-    }
-  }
-  componentDidMount () {
-    this.updateDocumentTitle()
-  }
   getChildContext () {
     return this.props.context
   }

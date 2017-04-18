@@ -3,10 +3,15 @@ import React, { Component } from 'react'
 import ReactDOM, { findDOMNode } from 'react-dom'
 import querystring from 'querystring'
 import _ from 'react-imvc/util'
-// import * as validator from '../../share/validator'
 import Menu from '../component/Menu'
 import { Input, Style, Preload } from 'react-imvc/component'
 import Upload from 'rc-upload'
+
+const validator = {
+  isNotEmpty: str => !!str,
+  isEmail: str => /.*@.*/.test(str),
+  isNumeric: str => !isNaN(Number(str))
+}
 
 /**
  * 文档列表
@@ -54,6 +59,20 @@ export default class Home extends Controller {
         isWarn: false
       }
     },
+    form3: [
+      {
+        name: '1',
+        value: '1'
+      },
+      {
+        name: '2',
+        value: '2'
+      },
+      {
+        name: '3',
+        value: '3'
+      }
+    ],
     imgSrc: null
   };
   actions = {
@@ -271,6 +290,16 @@ function View ({ state, handlers }) {
         <button onClick={handlers.handleClearWarning}>
           清空 form2 的全部表单警示样式
         </button>
+      </div>
+      <div>
+        {state.form3.map((form, index) => {
+          return (
+            <div key={index}>
+              name: <Input name={`form3.${index}.name`} />
+              value: <Input name={`form3.${index}.value`} />
+            </div>
+          )
+        })}
       </div>
       {!!state.imgSrc && <img src={state.imgSrc} />}
       <div />

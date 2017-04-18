@@ -80,8 +80,14 @@ function setValueByPath (obj, path, value) {
       if (index === path.length - 1) {
         list[index][key] = value
       } else {
-        let item = list[index][key] = { ...list[index][key] }
-        list.push(item)
+        let target = list[index][key]
+        if (Array.isArray(target)) {
+          target = target.concat()
+        } else {
+          target = {...target}
+        }
+        list[index][key] = target
+        list.push(target)
       }
       return list
     },

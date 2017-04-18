@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Controller from 'react-imvc/component'
+import Controller from 'react-imvc/controller'
 import Menu from '../component/Menu'
 
 export default class extends Controller {

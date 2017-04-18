@@ -1,4 +1,4 @@
-import Controller from '../../share/BaseController'
+import Controller from 'react-imvc/controller'
 import React, { Component } from 'react'
 import Menu from '../component/Menu'
 

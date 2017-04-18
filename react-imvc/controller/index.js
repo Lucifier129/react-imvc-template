@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { createStore, createLogger } from 'relite'
 import _ from '../util'
+import createViewWrapper from './createViewWrapper'
 import setRecorder from './recorder'
 import BaseView from '../component/BaseView'
 import * as shareActions from './actions'
@@ -345,48 +346,7 @@ export default class Controller {
       window.scrollTo(0, 0)
     }
 
-    let controller = this
-
-    // ViewWrapper 把 react 组件生命周期同步到 controller 里
-    class ViewWrapper extends Component {
-      componentWillMount () {
-        if (controller.componentWillMount) {
-          controller.componentWillMount()
-        }
-      }
-      componentDidMount () {
-        if (controller.componentDidMount) {
-          controller.componentDidMount()
-        }
-      }
-      componentWillUpdate (...args) {
-        if (controller.componentWillUpdate) {
-          controller.componentWillUpdate(...args)
-        }
-      }
-      componentDidUpdate (...args) {
-        if (controller.componentDidUpdate) {
-          controller.componentDidUpdate(...args)
-        }
-      }
-      shouldComponentUpdate (...args) {
-        if (controller.shouldComponentUpdate) {
-          let result = controller.shouldComponentUpdate(...args)
-          return result === false ? false : true
-        }
-        return true
-      }
-      componentWillUnmount () {
-        if (controller.componentWillUnmount) {
-          controller.componentWillUnmount()
-        }
-      }
-      render () {
-        return <View {...this.props} />
-      }
-    }
-
-    this.ViewWrapper = ViewWrapper
+    this.ViewWrapper = createViewWrapper(this)
 
     return this.render()
   }
@@ -416,7 +376,7 @@ export default class Controller {
       handleInputChange
     }
     return (
-      <BaseView context={componentContext} key={location.raw}>
+      <BaseView context={componentContext}>
         <ViewWrapper state={state} handlers={handlers} />
       </BaseView>
     )

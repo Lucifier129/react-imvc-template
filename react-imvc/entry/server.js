@@ -85,7 +85,10 @@ app.use('/mock', (req, res, next) => {
 
 if (routes) {
   Object.keys(routes).forEach(key => {
-    routes[key](app)
+    let route = routes[key]
+    if (typeof route === 'function') {
+      route(app)
+    }
   })
 }
 

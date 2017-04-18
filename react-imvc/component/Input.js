@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-// test
+import _ from '../util'
+
+const { setValueByPath, getValueByPath } = _
 
 export default class Input extends Component {
   static contextTypes = {
@@ -15,7 +17,7 @@ export default class Input extends Component {
   };
   render () {
     let { state } = this.context
-    let { as, name, value, check, actionType, ...subProps } = this.props
+    let { as, name, value, check, actionType, transformer, ...subProps } = this.props
     let Tag = as
 
     let path = check ? `${name}.value` : name
@@ -43,14 +45,19 @@ export default class Input extends Component {
   }
   handleChange = event => {
     let { state, handleInputChange } = this.context
-    let { name, onChange, check } = this.props
+    let { name, onChange, check, transformer } = this.props
     let currentValue = event.currentTarget.value
     let path = check ? `${name}.value` : name
     let oldValue = getValueByPath(state, path)
-    let value = handleInputChange
-      ? handleInputChange(path, currentValue, oldValue)
-      : currentValue
-    let newState = setValueByPath(state, path, value)
+
+    if (typeof transformer === 'function') {
+      currentValue = transformer(currentValue)
+    }
+    if (handleInputChange) {
+      currentValue = handleInputChange(path, currentValue, oldValue)
+    }
+    
+    let newState = setValueByPath(state, path, currentValue)
 
     this.setGlobalState(newState)
     onChange && onChange(event)
@@ -83,27 +90,4 @@ export default class Input extends Component {
     this.setGlobalState(newState)
     onBlur && onBlur(event)
   };
-}
-
-function setValueByPath (obj, path, value) {
-  path = !Array.isArray(path) ? path.split('.') : path
-  let list = path.reduce(
-    (list, key, index) => {
-      if (index === path.length - 1) {
-        list[index][key] = value
-      } else {
-        let item = list[index][key] = { ...list[index][key] }
-        list.push(item)
-      }
-      return list
-    },
-    [{ ...obj }]
-  )
-
-  return list[0]
-}
-
-function getValueByPath (obj, path) {
-  path = !Array.isArray(path) ? path.split('.') : path
-  return path.reduce((ret, key) => ret[key], obj)
 }
