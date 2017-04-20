@@ -75,12 +75,11 @@ router.all('*', async (req, res, next) => {
     publicPath: config.publicPath,
     // 服务端用 http 协议，浏览器端让浏览器自动补全协议
     restfulApi: 'http:' + config.serverRestfulApi,
-    locationOrigin: 'http:' + config.locationOrigin,
     /**
      * serverLocationOrigin 是为了防止因为不能访问外网而导致的错误
      * 它是 localhost:${port} 的形式
      */
-    serverLocationOrigin: 'http:' + config.serverLocationOrigin,
+    locationOrigin: 'http:' + config.serverLocationOrigin,
     env: config.env,
     preload: {}
   }

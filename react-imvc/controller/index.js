@@ -182,16 +182,9 @@ export default class Controller {
       if (!_.isAbsoluteUrl(url)) {
         let {
           locationOrigin,
-          serverLocationOrigin,
           publicPath,
-          isClient,
-          isServer
         } = this.context
-        if (isClient) {
-          url = locationOrigin + publicPath + url
-        } else if (isServer) {
-          url = serverLocationOrigin + publicPath + url
-        }
+        url = locationOrigin + publicPath + url
       }
       let options = {
         json: false
