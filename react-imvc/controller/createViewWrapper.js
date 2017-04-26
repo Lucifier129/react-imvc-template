@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+
 export default function createViewWrapper(controller) {
 	/**
 	 * ViewWrapper 把 react 组件生命周期同步到 controller 里
