@@ -12,6 +12,7 @@ var alias = Object.assign({
   moment: path.join(__dirname, '../share/moment'),
   rome: path.join(__dirname, '../share/rome'),
 }, customConfig.alias)
+
 var outputPath = path.join(cwd, 'dest')
 var entry = {
   index: path.join(__dirname, '../entry/client'),
@@ -27,6 +28,15 @@ var entry = {
     path.join(__dirname, '../polyfill')
   ]
 }
+
+if (customConfig.index) {
+  entry.index = [].concat(customConfig.index, entry.index)
+}
+
+if (customConfig.vendor) {
+  entry.vendor = entry.vendor.concat(customConfig.vendor)
+}
+
 var output = {
   path: outputPath,
   filename: `[name].js`,
