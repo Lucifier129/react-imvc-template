@@ -6,19 +6,22 @@ import { Input, EventWrapper } from 'react-imvc/component'
 export default class extends Controller {
   View = View
   handleClick = () => {
-    console.log('click')
+    console.log('props 传递 click 的点击')
   }
   handleClick2 = () => {
-    console.log('click 22')
+    console.log('EventWrapper click 点击默认`div`标签')
   }
   handleClick3 = () => {
-    console.log('click 333')
+    console.log('EventWrapper click 按钮')
   }
   handleClick4 = () => {
-    console.log('click 4444')
+    console.log('EventWrapper click 段落')
   }
   handleFocus2 = () => {
-    console.log('focus 22')
+    console.log('EventWrapper focus 输入框')
+  }
+  handleMouseOver2 = () => {
+    console.log('EventWrapper mouse over 段落')
   }
 }
 
@@ -62,7 +65,7 @@ function Grandson({ handleClick }) {
         placeholder="代理`input`"
         onFocus='handleFocus2'
         onBlur={() => {
-          console.log('on blur')
+          console.log('就近 on blur')
         }}
       />
       <br />
@@ -73,14 +76,14 @@ function Grandson({ handleClick }) {
           border: '1px solid red'
         }}
       >
-        btnGo
+        代理点击
       </EventWrapper>
       <br />
       <EventWrapper
         as="button"
         onClick='handleClick3'
       >
-        btnGo
+        包装按钮点击事件
       </EventWrapper>
       <EventWrapper
         as="p"
@@ -88,8 +91,9 @@ function Grandson({ handleClick }) {
         style={{
           border: '1px solid green'
         }}
+        onMouseOver='handleMouseOver2'
       >
-        some paragraph
+        包装段落点击事件
       </EventWrapper>
     </div>
   )
