@@ -366,7 +366,8 @@ export default class Controller {
       state,
       actions: store.actions,
       preload: context.preload,
-      handleInputChange
+      handleInputChange,
+      handlers,
     }
     return (
       <BaseView context={componentContext}>
