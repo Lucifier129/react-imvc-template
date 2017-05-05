@@ -11,22 +11,14 @@ export default class EventWrapper extends Component {
     const {
       children,
       as: Tag,
-      ...restProps,
+      ...props,
     } = this.props
     const { handlers } = this.context
-    const props = {
-      ...restProps
-    }
-    for (let key in restProps) {
-      if (key.startsWith('on')) {
-        if ('function' === typeof handlers[restProps[key]]) {
-          props[key] = handlers[restProps[key]]
-        } else if ('function' === typeof restProps[key]) {
-          // `onEvent`自身为函数
-          break
-        } else {
-          // 如果没有对应的`handler`赋值空操作
-          props[key] = () => {}
+    for (let key in props) {
+      if (/^on[A-Z]+/.test(key)) {
+        const handler = handlers[props[key]]
+        if ('function' === typeof handler) {
+          props[key] = handler
         }
       }
     }
