@@ -18,9 +18,6 @@ export default class EventWrapper extends Component {
       ...restProps
     }
     for (let key in restProps) {
-      if ('string' !== typeof key) {
-        break
-      }
       if (key.startsWith('on')) {
         if ('function' === typeof handlers[restProps[key]]) {
           props[key] = handlers[restProps[key]]
