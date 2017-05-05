@@ -12,7 +12,8 @@ export default class BaseView extends PureComponent {
     actions: PropTypes.object,
     state: PropTypes.object,
     preload: PropTypes.object,
-    handleInputChange: PropTypes.func
+    handlers: PropTypes.object,
+    handleInputChange: PropTypes.func,
   };
   getChildContext () {
     return this.props.context

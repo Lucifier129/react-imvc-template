@@ -12,5 +12,9 @@ export default [
   {
     path: '/demo/detail',
     controller: require('./detail/controller')
+  },
+  {
+    path: '/demo/test',
+    controller: require('./test/controller')
   }
 ]
