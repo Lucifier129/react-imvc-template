@@ -20,7 +20,7 @@ const app = express()
 export default app
 
 app.use(shareRoot(config.basename))
-app.use(helmet())
+app.use(helmet(config.helmet))
 app.use(compression())
 // app.use(favicon(path.join(__dirname, '../static/favicon.ico')))
 
