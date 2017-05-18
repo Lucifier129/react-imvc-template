@@ -25,6 +25,7 @@ var entry = {
     'classnames',
     'querystring',
     'fetch-ie8',
+    'js-cookie',
     path.join(__dirname, '../polyfill')
   ]
 }
@@ -63,6 +64,20 @@ var plugins = [
 ]
 var watch = true
 var devtool = '#source-map'
+var postLoaders = []
+
+if (process.env.CODE_SPLIT !== '0') {
+  postLoaders.push({
+    test: /controller\.jsx?$/,
+    loader: 'bundle-loader',
+    query: {
+      lazy: true,
+      name: 'app-[1]/js/[folder]',
+      regExp: /[\/\\]app-([^\/\\]+)[\/\\]/.source
+    },
+    exclude: /node_modules/
+  })
+}
 
 if (process.env.NODE_ENV === 'production') {
   devtool = ''
@@ -135,21 +150,7 @@ module.exports = {
         )
       ]
     }],
-    postLoaders: [{
-      test: /controller\.jsx?$/,
-      loader: 'bundle-loader',
-      query: {
-        lazy: true,
-        name: 'app-[1]/js/[folder]',
-        regExp: /[\/\\]app-([^\/\\]+)[\/\\]/.source
-      },
-      exclude: /node_modules/
-    }, {
-      test: /\.(js|jsx)(-lazy)?$/,
-      // babel-rumtime 也有 a.default 形式的代码，不能排除
-      //exclude: /node_modules/,
-      loaders: ['es3ify-loader']
-    }]
+    postLoaders: postLoaders,
   },
   plugins: plugins,
   resolve: {

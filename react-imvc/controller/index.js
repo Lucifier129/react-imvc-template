@@ -1,6 +1,7 @@
 // base controller class
 import React, { Component } from 'react'
 import { createStore, createLogger } from 'relite'
+import Cookie from 'js-cookie'
 import _ from '../util'
 import createViewWrapper from './createViewWrapper'
 import setRecorder from './recorder'
@@ -99,6 +100,49 @@ export default class Controller {
           history.push(redirect)
         }
       }
+    }
+  }
+  // 封装 cookie 的同构方法
+  cookie(key, value, options) {
+    if (value == null) {
+      return this.getCookie(key)
+    }
+    this.setCookie(key, value, options)
+  }
+  getCookie(key) {
+    let { context } = this
+    if (context.isServer) {
+      let { req } = context
+      return req.cookies[key]
+    } else if (context.isClient) {
+      return Cookie.get(key)
+    }
+  }
+  setCookie(key, value, options) {
+    let { context } = this
+
+    if (options && options.expires) {
+      let isDateInstance = options.expires instanceof Date
+      if (!isDateInstance) {
+        throw new Error(`cookie 的过期时间 expires 必须为 Date 的实例，而不是 ${options.expires}`)
+      }
+    }
+
+    if (context.isServer) {
+      let { res } = context
+      res.cookie(key, value, options)
+    } else if (context.isClient) {
+      Cookie.set(key, value, options)
+    }
+  }
+  removeCookie(key, options) {
+    let { context } = this
+
+    if (context.isServer) {
+      let { res } = context
+      res.clearCookie(key, options)
+    } else if (context.isClient) {
+      Cookie.remove(key, options)
     }
   }
 

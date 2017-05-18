@@ -72,7 +72,13 @@ export default class Test extends Controller {
 
   // react 组件的生命周期
   componentWillMount () {}
-  componentDidMount () {}
+  componentDidMount () {
+    console.log('cookie', this.cookie('test_cookie'))
+    this.removeCookie('test_cookie')
+    // this.cookie('test_cookie', 123, {
+    //   expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
+    // })
+  }
   componentWillUpdate () {}
   componentDidUpdate () {}
   componentWillUnmount () {}
