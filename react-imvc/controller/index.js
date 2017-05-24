@@ -36,16 +36,16 @@ export default class Controller {
     if (_.isAbsoluteUrl(pathname)) {
       return pathname
     }
-    let { locationOrigin, basename } = this.context
-    return locationOrigin + basename + pathname
+    let { basename } = this.context
+    return basename + pathname
   }
 
   prependPublicPath (pathname) {
     if (_.isAbsoluteUrl(pathname)) {
       return pathname
     }
-    let { locationOrigin, publicPath } = this.context
-    return locationOrigin + publicPath + pathname
+    let { publicPath } = this.context
+    return publicPath + pathname
   }
 
   // 处理 url 的相对路径或 mock 地址问题
@@ -67,7 +67,7 @@ export default class Controller {
 
     // 对 mock 的请求进行另一种拼接，转到 node.js 服务去
     if (url.indexOf('/mock/') === 0) {
-      return context.locationOrigin + context.basename + url
+      return this.prependBasename(url)
     }
 
     return context.restfulApi + url
@@ -75,30 +75,22 @@ export default class Controller {
 
   /**
 	* 封装重定向方法，根据 server/client 环境不同而选择不同的方式
+  * isRaw 是否不拼接 Url，直接使用
 	*/
-  redirect (redirect, isReplace) {
+  redirect (redirectUrl, isRaw) {
     let { history, context } = this
 
     if (context.isServer) {
-      if (!_.isAbsoluteUrl(redirect)) {
-        // 这里不使用 prependBasename 因为不需要 locationOrigin
-        // 302 重定向可以自动适配 locationOrigin
-        redirect = context.basename + redirect
+      if (!isRaw && !_.isAbsoluteUrl(redirectUrl)) {
+        // 兼容 history.push，自动补全 basename
+        redirectUrl = this.prependBasename(redirectUrl)
       }
-      context.res.redirect(redirect)
+      context.res.redirect(redirectUrl)
     } else if (context.isClient) {
-      if (_.isAbsoluteUrl(redirect)) {
-        if (isReplace) {
-          window.location.replace(redirect)
-        } else {
-          window.location.href = redirect
-        }
+      if (isRaw || _.isAbsoluteUrl(redirectUrl)) {
+        window.location.replace(redirectUrl)
       } else {
-        if (isReplace) {
-          history.replace(redirect)
-        } else {
-          history.push(redirect)
-        }
+        history.replace(redirectUrl)
       }
     }
   }
@@ -150,11 +142,15 @@ export default class Controller {
 	 * 封装 fetch, https://github.github.io/fetch
 	 * options.json === false 不自动转换为 json
 	 * options.timeout:number 超时时间
+   * options.raw 不补全 restfulBasename 
 	 */
   fetch(url, options = {}) {
     let { context } = this
+    
     // 补全 url
-    let finalUrl = this.prependRestfulBasename(url)
+    if (!options.raw) {
+      url = this.prependRestfulBasename(url)
+    }
 
     let finalOptions = {
       method: 'GET',
@@ -173,7 +169,7 @@ export default class Controller {
       finalOptions.headers['Cookie'] = context.req.headers.cookie || ''
     }
 
-    let fetchData = fetch(finalUrl, finalOptions)
+    let fetchData = fetch(url, finalOptions)
 
     /**
 		 * 拓展字段，如果手动设置 options.json 为 false
@@ -216,25 +212,16 @@ export default class Controller {
       return
     }
 
-    let { fetch, context } = this
+    let { context } = this
     let list = keys.map(name => {
       if (context.preload[name]) {
         return
       }
       let url = preload[name]
+      url = this.prependPublicPath(url)
 
-      if (!_.isAbsoluteUrl(url)) {
-        let {
-          locationOrigin,
-          publicPath,
-        } = this.context
-        url = locationOrigin + publicPath + url
-      }
-      let options = {
-        json: false
-      }
-      return fetch(url, options).then(_.toText).then(content => {
-        if (url.indexOf('.css') !== -1) {
+      return fetch(url).then(_.toText).then(content => {
+        if (url.split('?')[0].indexOf('.css') !== -1) {
           /**
 						 * 如果是 CSS ，清空回车符
 						 * 否则同构渲染时 react 计算 checksum 值会不一致
