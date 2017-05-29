@@ -19,12 +19,17 @@ export default class Input extends Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      value: props.value != null ? props.value : this.getValue()
+      value: this.getValue()
     }
-    this.handleChange = debounce(
-      this.handleChange,
-      props.wait
-    )
+    this.lock = false
+    this.timer = null
+  }
+  componentWillReceiveProps(nextProps, nextContext) {
+    if (!this.lock) {
+      this.setState({
+        value: this.getValue(nextProps, nextContext)
+      })
+    }
   }
   render () {
     let { state, props } = this
@@ -33,17 +38,83 @@ export default class Input extends Component {
 
     subProps.value = value != null ? value : state.value
     subProps.name = name
-    subProps.onChange = this.handleValueChange
-    if (check) {
-      subProps.onFocus = this.handleFocus
-      subProps.onBlur = this.handleBlur
-    }
+    subProps.onChange = this.handleChange
+    subProps.onFocus = this.handleFocus
+    subProps.onBlur = this.handleBlur
 
     return <Tag {...subProps} />
   }
-  getValue() {
-    let { state } = this.context
-    let { check, name } = this.props
+  handleChange = event => {
+    let { onChange } = this.props
+    let currentValue = event.target.value
+    this.setState({
+      value: currentValue,
+    })
+    onChange && onChange(event)
+    this.sync(currentValue)
+  }
+  handleFocus = event => {
+    let { onFocus, check } = this.props
+
+    this.lock = true
+
+    if (typeof check === 'function') {
+      this.clearValidStatus()
+    }
+
+    onFocus && onFocus(event)
+  };
+  handleBlur = event => {
+    let { onBlur, check } = this.props
+
+    this.lock = false
+
+    if (typeof check === 'function') {
+      this.checkValidStatus()
+    }
+
+    this.updateValue()
+
+    onBlur && onBlur(event)
+  };
+  updateValue = () => {
+    let { context, props } = this
+    let { name, check, transformer } = props
+    let path = check ? `${name}.value` : name
+    let currentValue = this.state.value
+    let oldValue = getValueByPath(context.state, path)
+
+    if (typeof transformer === 'function') {
+      currentValue = transformer(currentValue, oldValue)
+    }
+
+    let { handleInputChange } = context
+
+    if (handleInputChange) {
+      currentValue = handleInputChange(path, currentValue, oldValue)
+    }
+
+    if (currentValue === oldValue) {
+      return
+    }
+
+    this.setState({
+      value: currentValue
+    })
+    
+    let newGlobalState = setValueByPath(context.state, path, currentValue)
+    this.setGlobalState(newGlobalState)
+  }
+  sync(currentValue) {
+    clearTimeout(this.timer)
+    this.timer = setTimeout(
+      this.updateValue,
+      this.props.wait
+    )
+  }
+  getValue(props, context) {
+    let { state } = context || this.context
+    let { check, name } = props || this.props
     let path = check ? `${name}.value` : name
     return getValueByPath(state, path)
   }
@@ -54,58 +125,28 @@ export default class Input extends Component {
     let CALL_ACTION = this.getAction()
     CALL_ACTION(newState)
   }
-  handleValueChange = event => {
-    this.setState({
-      value: event.target.value,
-    })
-    event.persist()
-    this.handleChange(event)
-  }
-  handleChange(event) {
-    let { state, handleInputChange } = this.context
-    let { name, onChange, check, transformer } = this.props
-    let currentValue = event.target.value
-    let path = check ? `${name}.value` : name
-    let oldValue = getValueByPath(state, path)
+  checkValidStatus() {
+    let { name, onBlur, check } = this.props
+    let currentValue = this.state.value
+    let pathOfValidState = `${name}.isValid`
+    let pathOfWranState = `${name}.isWarn`
+    let isValidValue = check(currentValue)
+    let newState = this.context.state
 
-    if (typeof transformer === 'function') {
-      currentValue = transformer(currentValue, oldValue)
-    }
-    if (handleInputChange) {
-      currentValue = handleInputChange(path, currentValue, oldValue)
-    }
-    
-    let newState = setValueByPath(state, path, currentValue)
-
+    newState = setValueByPath(newState, pathOfValidState, isValidValue)
+    newState = setValueByPath(newState, pathOfWranState, !isValidValue)
     this.setGlobalState(newState)
-    onChange && onChange(event)
   }
-  handleFocus = event => {
+  clearValidStatus() {
     let { state } = this.context
-    let { name, onFocus } = this.props
+    let { name } = this.props
     let path = `${name}.isWarn`
     let isWarn = getValueByPath(state, path)
     if (!isWarn) {
       return
     }
+
     let newState = setValueByPath(state, path, false)
-
     this.setGlobalState(newState)
-    onFocus && onFocus(event)
-  };
-  handleBlur = event => {
-    let state = this.context.state
-    let { name, onBlur, check } = this.props
-    let pathOfValidState = `${name}.isValid`
-    let pathOfWranState = `${name}.isWarn`
-
-    let isValidValue = check(event.target.value)
-    let newState = state
-
-    newState = setValueByPath(newState, pathOfValidState, isValidValue)
-    newState = setValueByPath(newState, pathOfWranState, !isValidValue)
-
-    this.setGlobalState(newState)
-    onBlur && onBlur(event)
-  };
+  }
 }

@@ -14,6 +14,10 @@ var config = {
 	js: {
 		src: ['../../src/lib/**/*.js'],
 		dest: '../../dest/lib'
+	},
+	copy: {
+		src: ['../../src/**/*.!(html|htm|css|js|jpg|jepg|png|gif|ico)'],
+		dest: '../../dest'
 	}
 }
 
@@ -73,4 +77,10 @@ gulp.task('minify-js', () =>
 	.pipe(uglify())
 	.pipe(gulp.dest(config.js.dest)))
 
-gulp.task('default', ['minify-html', 'minify-css', 'minify-img', 'minify-js'])
+gulp.task('copy', () =>
+	gulp
+	.src(config.copy.src)
+	.pipe(plumber())
+	.pipe(gulp.dest(config.copy.dest)))
+
+gulp.task('default', ['minify-html', 'minify-css', 'minify-img', 'minify-js', 'copy'])

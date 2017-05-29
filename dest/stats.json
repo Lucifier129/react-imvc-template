@@ -1,10 +1,10 @@
 {
-  "index": "index-a4a735.js",
-  "app-template/js/home": "app-template/js/home-c85260.js",
-  "app-template/js/notfound": "app-template/js/notfound-32f8c5.js",
-  "app-demo/js/home": "app-demo/js/home-560b75.js",
-  "app-demo/js/list": "app-demo/js/list-13d44b.js",
-  "app-demo/js/detail": "app-demo/js/detail-95acc3.js",
-  "app-demo/js/test": "app-demo/js/test-2f5e32.js",
-  "vendor": "vendor-a4a735.js"
+  "index": "index-fff3fd.js",
+  "app-template/js/home": "app-template/js/home-298c60.js",
+  "app-template/js/notfound": "app-template/js/notfound-21119e.js",
+  "app-demo/js/home": "app-demo/js/home-2cfce9.js",
+  "app-demo/js/list": "app-demo/js/list-480c68.js",
+  "app-demo/js/detail": "app-demo/js/detail-98af14.js",
+  "app-demo/js/test": "app-demo/js/test-33b64a.js",
+  "vendor": "vendor-fff3fd.js"
 }
