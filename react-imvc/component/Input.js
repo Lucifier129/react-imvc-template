@@ -46,7 +46,7 @@ export default class Input extends Component {
   }
   handleChange = event => {
     let { onChange } = this.props
-    let currentValue = event.target.value
+    let currentValue = event.currentTarget.value
     this.setState({
       value: currentValue,
     })
