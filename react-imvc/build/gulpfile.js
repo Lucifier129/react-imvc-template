@@ -1,23 +1,37 @@
 var config = {
 	css: {
 		src: ['../../src/**/*.css'],
-		dest: '../../dest'
+		dest: '../../publish/dest'
 	},
 	html: {
 		src: ['../../src/**/*.@(html|htm)'],
-		dest: '../../dest'
+		dest: '../../publish/dest'
 	},
 	img: {
 		src: ['../../src/**/*.@(jpg|jepg|png|gif|ico)'],
-		dest: '../../dest'
+		dest: '../../publish/dest'
 	},
 	js: {
 		src: ['../../src/lib/**/*.js'],
-		dest: '../../dest/lib'
+		dest: '../../publish/dest/lib'
 	},
 	copy: {
 		src: ['../../src/**/*.!(html|htm|css|js|jpg|jepg|png|gif|ico)'],
-		dest: '../../dest'
+		dest: '../../publish/dest'
+	},
+	publishCopy: {
+		src: [
+			'../../!(node_modules|publish)/**/*',
+			'../../!(node_modules|publish)'
+		],
+		dest: '../../publish'
+	},
+	publishBabel: {
+		src: [
+			'../../!(node_modules|publish)/**/*.js',
+			'../../*.js'
+		],
+		dest: '../../publish'
 	}
 }
 
@@ -31,6 +45,7 @@ var cleanCSS = require('gulp-clean-css')
 var htmlmin = require('gulp-htmlmin')
 var imagemin = require('gulp-imagemin')
 var uglify = require('gulp-uglify')
+var babel = require('gulp-babel')
 
 gulp.task('minify-css', () =>
 	gulp
@@ -83,4 +98,21 @@ gulp.task('copy', () =>
 	.pipe(plumber())
 	.pipe(gulp.dest(config.copy.dest)))
 
-gulp.task('default', ['minify-html', 'minify-css', 'minify-img', 'minify-js', 'copy'])
+gulp.task('publish-copy', () => 
+	gulp
+	.src(config.publishCopy.src)
+	.pipe(plumber())
+	.pipe(gulp.dest(config.publishCopy.dest))
+)
+
+gulp.task('publish-babel', ['publish-copy'], () => {
+	return gulp
+		.src(config.publishBabel.src)
+		.pipe(babel())
+		.pipe(plumber())
+		.pipe(gulp.dest(config.publishBabel.dest))
+})
+
+gulp.task('publish', ['publish-babel'])
+
+gulp.task('default', ['minify-html', 'minify-css', 'minify-img', 'minify-js', 'copy', 'publish'])
