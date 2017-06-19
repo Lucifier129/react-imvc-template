@@ -26,7 +26,11 @@ var entry = {
     'querystring',
     'fetch-ie8',
     'js-cookie',
-    path.join(__dirname, '../polyfill')
+    path.join(__dirname, '../polyfill'),
+    'moment',
+    'react-imvc/component',
+    'react-imvc/controller',
+    'react-imvc/util'
   ]
 }
 

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "install-imvc": "rimraf ./node_modules/react-imvc && babel ./react-imvc --out-dir ./node_modules/react-imvc",
-    "postinstall": "npm run install-imvc",
+    "postinstall": "npm run install-imvc && npm run build",
     "start": "cross-env NODE_ENV=development PORT=3000 CODE_SPLIT=0 node ./react-imvc/bin/www-babel-register",
     "start:split": "cross-env NODE_ENV=development PORT=3000 node ./react-imvc/bin/www-babel-register",
     "start:prod": "cross-env NODE_ENV=production PORT=3000 node ./react-imvc/bin/www-babel-register",

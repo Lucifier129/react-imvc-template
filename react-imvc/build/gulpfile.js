@@ -21,14 +21,14 @@ var config = {
 	},
 	publishCopy: {
 		src: [
-			'../../!(node_modules|publish)/**/*',
-			'../../!(node_modules|publish)'
+			'../../!(node_modules|publish|buildportal-script)/**/*',
+			'../../!(node_modules|publish|buildportal-script)'
 		],
 		dest: '../../publish'
 	},
 	publishBabel: {
 		src: [
-			'../../!(node_modules|publish)/**/*.js',
+			'../../!(node_modules|publish|buildportal-script)/**/*.js',
 			'../../*.js'
 		],
 		dest: '../../publish'
