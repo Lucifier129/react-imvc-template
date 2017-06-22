@@ -8,6 +8,8 @@ import setRecorder from './recorder'
 import BaseView from '../component/BaseView'
 import * as shareActions from './actions'
 
+const EmptyView = () => false
+
 /**
  * 绑定 Store 到 View
  * 提供 Controller 的生命周期钩子
@@ -250,8 +252,19 @@ export default class Controller {
       getInitialState,
       actions,
       context,
-      location
+      location,
+      SSR,
+      Loading
     } = this
+
+    if (SSR === false) {
+      if (context.isServer) {
+        let View = Loading || EmptyView
+        return <View state={initialState} handlers={{}} />
+      } else if (context.isClient) {
+        window.__INITIAL_STATE__ = undefined
+      }
+    }
 
     // 在 init 方法里 bind this，这样 fetch 可以支持继承
     // 如果用 fetch = (url, option = {}) => {} 的写法，它不是原型方法，无法继承

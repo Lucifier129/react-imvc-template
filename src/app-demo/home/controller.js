@@ -22,6 +22,7 @@ const validator = {
  * express doc: http://expressjs.com/
  */
 export default class Home extends Controller {
+  SSR = false;
   preload = {
     controller: '/app-demo/home/controller.js'
   };
