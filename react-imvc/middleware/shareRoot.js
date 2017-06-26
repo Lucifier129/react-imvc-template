@@ -11,11 +11,10 @@ module.exports = function shareRoot (rootPath) {
     if (ROOT_RE.test(req.url)) {
       req.url = req.url.replace(ROOT_RE, '')
       req.basename = rootPath
-      if (req.url === '') {
-        req.url = '/'
+      if (req.url.charAt(0) !== '/') {
+        req.url = '/' + req.url
       }
     }
-
     next()
   }
 }
