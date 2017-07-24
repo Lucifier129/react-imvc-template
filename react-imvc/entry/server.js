@@ -87,6 +87,7 @@ app.use('/mock', (req, res, next) => {
   let filePath = path.join(__dirname, '../../src', `${target}.json`)
   try {
     let data = fs.readFileSync(filePath, 'utf-8').toString()
+    res.type('application/json')
     res.send(data)
   } catch (error) {
     next(error)
