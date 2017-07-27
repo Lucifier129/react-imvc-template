@@ -39,7 +39,7 @@ module.exports = {
 	logger: 'dev',
 	favicon: '',
 	SSR: true,
-	port: port
+	port: port,
 	NODE_ENV: NODE_ENV,
 
 	clientContext: {},

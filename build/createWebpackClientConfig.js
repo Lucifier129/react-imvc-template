@@ -44,7 +44,7 @@ module.exports = function createWebpackClientConfig(options) {
           path.join(__dirname, '../controller'),
           path.join(__dirname, '../util'),
         ]
-      }
+      })
 
       // 对 index 和 vendor 特殊处理
       if (config.entry) {

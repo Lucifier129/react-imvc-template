@@ -10,6 +10,4 @@ export Style from './Style'
 
 export OuterClickWrapper from './OuterClickWrapper'
 
-export DatePicker from './DatePicker'
-
 export EventWrapper from './EventWrapper'

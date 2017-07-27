@@ -13,28 +13,28 @@ var createConfig = options => {
 	var root = options.root
 	var src = path.join(root, options.src)
 	var publish = path.join(root, options.publish)
-	var static = path.join(publish, options.static)
+	var staticPath = path.join(publish, options.static)
 
 	return {
 		css: {
 			src: [src + '/**/*.css'],
-			dest: static
+			dest: staticPath
 		},
 		html: {
 			src: [src + '/**/*.@(html|htm)'],
-			dest: static
+			dest: staticPath
 		},
 		img: {
 			src: [src + '/**/*.@(jpg|jepg|png|gif|ico)'],
-			dest: static
+			dest: staticPath
 		},
 		js: {
 			src: [src + '/lib/**/*.js'],
-			dest: static + '/lib'
+			dest: staticPath + '/lib'
 		},
 		copy: {
 			src: [src + '/**/*.!(html|htm|css|js)'],
-			dest: static
+			dest: staticPath
 		},
 		publishCopy: {
 			src: [

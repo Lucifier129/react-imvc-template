@@ -90,7 +90,7 @@ export default function createExpressApp(config) {
     app.use(setupDevEnv.setupClient(config.static))
 
     // 开发模式里，用 src 里的静态资源
-    app.use(statciPath, express.static(path.join(config.root, config.src))
+    app.use(statciPath, express.static(path.join(config.root, config.src)))
   } else {
     // publish 目录启动
     app.use(statciPath, express.static(path.join(config.root, config.static)))
