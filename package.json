@@ -108,5 +108,7 @@
     "downloadjs": "^1.4.7",
     "rome": "^2.1.22"
   },
-  "dependencies": {}
+  "dependencies": {
+    "prop-types": "^15.5.10"
+  }
 }

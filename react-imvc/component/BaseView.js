@@ -1,4 +1,5 @@
-import React, { Component, PureComponent, Children, PropTypes } from 'react'
+import React, { Component, PureComponent, Children } from 'react'
+import PropTypes from 'prop-types'
 
 /**
  * BaesView 组件
