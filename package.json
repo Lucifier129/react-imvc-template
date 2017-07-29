@@ -115,5 +115,7 @@
     "webpack-dev-middleware": "^1.9.0",
     "whatwg-fetch": "^1.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "prop-types": "^15.5.10"
+  }
 }
