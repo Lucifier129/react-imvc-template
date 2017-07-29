@@ -52,7 +52,7 @@ export default class Input extends Component {
     let oldValue = getValueByPath(state, path)
 
     if (typeof transformer === 'function') {
-      currentValue = transformer(currentValue)
+      currentValue = transformer(currentValue, oldValue)
     }
     if (handleInputChange) {
       currentValue = handleInputChange(path, currentValue, oldValue)

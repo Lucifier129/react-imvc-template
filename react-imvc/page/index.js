@@ -27,28 +27,50 @@ if (process.env.NODE_ENV === 'development' || process.env.BUILD === '1') {
   })
 } else {
   // 生产模式直接用编译好的资源表
-  assets = getAssets(require('../../dest/stats'))
+  try {
+    // 在 publish 目录下启动
+    assets = getAssets(require('../../stats'))
+  } catch(error) {
+    // 在项目根目录下启动
+    assets = getAssets(require('../../publish/stats'))
+  }
 }
 
 let layoutView = config.layout || path.join(__dirname, 'view')
 
+// 添加浏览器端 app 配置
+let attachClientAppSettings = (req, res, next) => {
+  let locationOrigin = config.locationOrigin
+  let host = req.headers.host
+  let basename = req.basename || ''
+
+  if (!host.includes('localhost') && !host.includes('127.0')) {
+    locationOrigin = host
+  }
+
+  req.clientAppSettings = {
+    basename: basename,
+    type: 'createHistory',
+    context: {
+      basename: basename,
+      publicPath: config.publicPath,
+      restfulApi: config.restfulApi,
+      locationOrigin: locationOrigin,
+      env: config.env,
+    }
+  }
+
+  next()
+}
+
+router.all('*', attachClientAppSettings)
+
 // 纯浏览器端渲染模式，用前置中间件拦截所有请求
 if (process.env.CLIENT_RENDER === '1') {
   router.all('*', (req, res) => {
-    let clientAppSettings = {
-      basename: req.basename || '',
-      type: 'createHistory',
-      context: {
-        basename: req.basename || '',
-        publicPath: config.publicPath,
-        restfulApi: config.restfulApi,
-        locationOrigin: config.locationOrigin,
-        env: config.env,
-      }
-    }
     res.render(layoutView, {
       assets: assets,
-      appSettings: clientAppSettings
+      appSettings: req.clientAppSettings
     })
   })
 } else if (process.env.NODE_ENV === 'development') {
@@ -97,24 +119,6 @@ router.all('*', async (req, res, next) => {
       return
     }
 
-    let clientAppSettings = {
-      basename: req.basename,
-      type: 'createHistory',
-      context: {
-        /**
-         * 预加载的内容不放到 clientContext 中
-         * 在 client entry.js 入口文件里用 dom 操作去拿内容
-         * 见 src/share/BaseController
-         */
-        preload: {},
-        basename: req.basename || '',
-        publicPath: config.publicPath,
-        restfulApi: config.restfulApi,
-        locationOrigin: config.locationOrigin,
-        env: config.env,
-      }
-    }
-
     let initialState = controller.store
       ? controller.store.getState()
       : undefined
@@ -124,7 +128,7 @@ router.all('*', async (req, res, next) => {
       assets,
       content,
       initialState,
-      appSettings: clientAppSettings
+      appSettings: req.clientAppSettings
     }
 
     res.render(layoutView, data)

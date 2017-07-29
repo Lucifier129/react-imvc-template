@@ -3,7 +3,13 @@
 /**
  * Module dependencies.
  */
-var fetch = require('node-fetch');
+require('babel-polyfill')
+
+if (process.env.NODE_ENV !== 'development') {
+  process.env.NODE_ENV = 'production'
+}
+
+var fetch = require('node-fetch')
 var pkg = require('../../package')
 var port = normalizePort(process.env.PORT || pkg.config.port || 3000);
 
@@ -17,19 +23,6 @@ global.fetch = (url, options) => {
 
 var debug = require('debug')('app:server');
 var http = require('http');
-
-require('babel-polyfill');
-require('babel-register')({
-  ignore: function(filename) {
-    if (/react-imvc\//.test(filename)) {
-      return false
-    } else if (/node_modules/.test(filename)) {
-      return true
-    }
-    return false
-  }
-});
-
 var app = require('../entry/server');
 app = app.default || app
 

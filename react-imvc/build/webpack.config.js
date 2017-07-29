@@ -13,7 +13,7 @@ var alias = Object.assign({
   rome: path.join(__dirname, '../share/rome'),
 }, customConfig.alias)
 
-var outputPath = path.join(cwd, 'dest')
+var outputPath = path.join(cwd, 'publish/dest')
 var entry = {
   index: path.join(__dirname, '../entry/client'),
   vendor: [
@@ -25,7 +25,12 @@ var entry = {
     'classnames',
     'querystring',
     'fetch-ie8',
-    path.join(__dirname, '../polyfill')
+    'js-cookie',
+    path.join(__dirname, '../polyfill'),
+    'moment',
+    'react-imvc/component',
+    'react-imvc/controller',
+    'react-imvc/util'
   ]
 }
 
@@ -44,17 +49,17 @@ var output = {
 }
 
 var plugins = [
-  new StatsPlugin('stats.json'),
+  new StatsPlugin('../stats.json'),
   // new webpack.optimize.OccurrenceOrderPlugin(false),
   // extract vendor chunks for better caching
   new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor',
     minChunks: Infinity
   }),
-  new webpack.optimize.CommonsChunkPlugin({
-    children: true,
-    minChunks: 3
-  }),
+  // new webpack.optimize.CommonsChunkPlugin({
+  //   children: true,
+  //   minChunks: 3
+  // }),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(
       process.env.NODE_ENV || 'development'
@@ -63,6 +68,20 @@ var plugins = [
 ]
 var watch = true
 var devtool = '#source-map'
+var postLoaders = []
+
+if (process.env.CODE_SPLIT !== '0') {
+  postLoaders.push({
+    test: /controller\.jsx?$/,
+    loader: 'bundle-loader',
+    query: {
+      lazy: true,
+      name: 'app-[1]/js/[folder]',
+      regExp: /[\/\\]app-([^\/\\]+)[\/\\]/.source
+    },
+    exclude: /node_modules/
+  })
+}
 
 if (process.env.NODE_ENV === 'production') {
   devtool = ''
@@ -135,21 +154,7 @@ module.exports = {
         )
       ]
     }],
-    postLoaders: [{
-      test: /controller\.jsx?$/,
-      loader: 'bundle-loader',
-      query: {
-        lazy: true,
-        name: 'app-[1]/js/[folder]',
-        regExp: /[\/\\]app-([^\/\\]+)[\/\\]/.source
-      },
-      exclude: /node_modules/
-    }, {
-      test: /\.(js|jsx)(-lazy)?$/,
-      // babel-rumtime 也有 a.default 形式的代码，不能排除
-      //exclude: /node_modules/,
-      loaders: ['es3ify-loader']
-    }]
+    postLoaders: postLoaders,
   },
   plugins: plugins,
   resolve: {

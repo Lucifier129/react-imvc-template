@@ -13,6 +13,7 @@ export default {
   closePopup,
   setValueByPath,
   getValueByPath,
+  debounce,
 }
 
 function toJson (res) {
@@ -100,4 +101,15 @@ function setValueByPath (obj, path, value) {
 function getValueByPath (obj, path) {
   path = !Array.isArray(path) ? path.split('.') : path
   return path.reduce((ret, key) => ret[key], obj)
+}
+
+function debounce(fn, wait=0) {
+  let timer = null
+  return function(...args) {
+    clearTimeout(timer)
+    timer = setTimeout(
+      () => fn.apply(this, args),
+      wait
+    )
+  }
 }

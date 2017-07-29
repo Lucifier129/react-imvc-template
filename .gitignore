@@ -4,10 +4,12 @@
 node_modules
 
 # production
+publish
+.idea
 
 # misc
 .DS_Store
 npm-debug.log
-
+.vscode
 _site
 mock/test.json

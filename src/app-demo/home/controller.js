@@ -22,9 +22,9 @@ const validator = {
  * express doc: http://expressjs.com/
  */
 export default class Home extends Controller {
+  SSR = false;
   preload = {
-    main: '/css/main.css',
-    stats: '/stats.json'
+    controller: '/app-demo/home/controller.js'
   };
   View = View;
   initialState = {
@@ -231,8 +231,6 @@ function View ({ state, handlers }) {
   } = state
   return (
     <div>
-      <Style name='main' />
-      <Preload name='stats' />
       <Menu />
       <h1>{state.text} {state.count}</h1>
       <div>
@@ -303,6 +301,7 @@ function View ({ state, handlers }) {
       </div>
       {!!state.imgSrc && <img src={state.imgSrc} />}
       <div />
+      <Preload name='controller' />
     </div>
   )
 }

@@ -5,14 +5,27 @@ import routes from '../../src'
 __webpack_public_path__ = window.__PUBLIC_PATH__ + '/'
 const __APP_SETTINGS__ = window.__APP_SETTINGS__ || {}
 
-const webpackLoader = loadModule =>
-  new Promise(loadModule).then(module => module.default || module)
+const getModule = module => module.default || module
+const webpackLoader = loadModule => {
+  if (typeof loadModule === 'function') {
+    return new Promise(loadModule).then(getModule)
+  }
+  return getModule(loadModule)
+}
+
+const logRenderStart = () => {
+  console && console.time && console.time('React#render')
+}
+
+const logRenderEnd = () => {
+  console && console.timeEnd && console.timeEnd('React#render')
+}
 
 const viewEngine = {
   render (component, container) {
-    console && console.time && console.time('React#render')
+    logRenderStart()
     let result = ReactDOM.render(component, container)
-    console && console.timeEnd && console.timeEnd('React#render')
+    setTimeout(logRenderEnd, 0) // ReactDOM.render 未必立即更新，故异步 log End
     return result
   }
 }

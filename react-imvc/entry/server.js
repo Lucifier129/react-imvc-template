@@ -20,9 +20,12 @@ const app = express()
 export default app
 
 app.use(shareRoot(config.basename))
-app.use(helmet())
+app.use(helmet(config.helmet))
 app.use(compression())
-// app.use(favicon(path.join(__dirname, '../static/favicon.ico')))
+
+if (config.favicon) {
+  app.use(favicon(config.favicon))
+}
 
 app.engine(
   'js',
@@ -58,7 +61,9 @@ app.get('/slbhealthcheck.html', (req, res) => {
 })
 
 // shareRoot 中间件把 config.basename 裁剪了，所以这里也裁剪一下才可以匹配成功
-let staticPublicPath = config.publicPath.replace(config.basename, '')
+let staticPublicPath = config.publicPath.indexOf(config.basename) === 0
+  ? config.publicPath.replace(config.basename, '')
+  : config.publicPath
 if (process.env.NODE_ENV === 'development' || process.env.BUILD === '1') {
   // 开发模式用 webpack-dev-middleware 代理 js 文件
   var setupDevEnv = require('../build/setup-dev-env')
@@ -66,8 +71,13 @@ if (process.env.NODE_ENV === 'development' || process.env.BUILD === '1') {
 
   // 开发模式里，用 src 里的静态资源
   app.use(staticPublicPath, express.static(path.join(__dirname, '../../src')))
-} else {
-  app.use(staticPublicPath, express.static(config.staticPath))
+} else if (!/^((https?:)?\/\/).+/.test(staticPublicPath)) {
+  // 非绝对路径才用 node.js 做静态服务，否则是 CDN 地址，不必代理
+
+  // 在 publish 目录下启动
+  app.use(staticPublicPath, express.static(path.join(__dirname, '../../dest')))
+  // 在项目根目录下启动
+  app.use(staticPublicPath, express.static(path.join(__dirname, '../../publish/dest')))
 }
 
 app.use('/mock', (req, res, next) => {
@@ -77,6 +87,7 @@ app.use('/mock', (req, res, next) => {
   let filePath = path.join(__dirname, '../../src', `${target}.json`)
   try {
     let data = fs.readFileSync(filePath, 'utf-8').toString()
+    res.type('application/json')
     res.send(data)
   } catch (error) {
     next(error)

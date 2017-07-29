@@ -1,9 +1,12 @@
-var pm2 = require('pm2');
-var pkg = require('../package');
+var pm2 = require('pm2')
+var pkg = require('../package')
 var path = require('path')
+var fs = require('fs')
 
-var name = pkg.config.vd || 'default-name';
-name = name.replace(/\//g, '_');
+var name = pkg.config.vd || 'default-name'
+name = name.replace(/\//g, '_')
+
+copyPackage()
 
 pm2_connect()
     .then(() => pm2_delete(name)) // 先停止
@@ -17,27 +20,34 @@ pm2_connect()
         pm2.disconnect()
     })
     .catch(() => {
-        console.error(err);
+        console.error(err)
         pm2.disconnect()
-        process.exit(2);
+        process.exit(2)
     })
 
 function pm2_start(appName) {
     return new Promise(function(resolve, reject) {
         pm2.start({
             name: appName,
-            script: path.join(__dirname, '../react-imvc/bin/www'), // Script to be run
+            script: path.join(__dirname, '../publish/react-imvc/bin/www'), // Script to be run
             exec_mode: 'cluster', // Allow your app to be clustered
             instances: 4, // Optional: Scale your app
-            max_memory_restart: '300M', // Optional: Restart your app if it reaches 300M
+            max_memory_restart: '600M', // Optional: Restart your app if it reaches 300M
         }, function(err, apps) {
             if (err) {
                 reject(err)
             } else {
                 resolve(apps)
             }
-        });
+        })
     })
+}
+
+function copyPackage() {
+    fs.writeFileSync(
+        path.join(__dirname, '../publish/package.json'),
+        fs.readFileSync(path.join(__dirname, '../package.json'))
+    )
 }
 
 function pm2_delete(appName) {

@@ -39,7 +39,6 @@ const config = {
   keywords: 'test',
   basename: basename,
   publicPath: basename + '/static',
-  staticPath: path.join(__dirname, 'dest'),
   initialState: undefined,
   content: '',
   appSettings: { ...envConfig },
