@@ -4,6 +4,6 @@
 
 export default {
   api: {
-    test: '/mock/app-template/json/test'
+    test: '/mock/json/test'
   }
 }

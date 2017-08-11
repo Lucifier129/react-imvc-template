@@ -29,7 +29,7 @@ export default function View ({ state, handlers }) {
           我是展示 ajax 数据的容器：{JSON.stringify(state.test)}
         </div>
         <img
-          src={`${state.publicPath}/app-template/img/Koala.jpg`}
+          src={`${state.publicPath}/img/Koala.jpg`}
           width={200}
         />
       </div>

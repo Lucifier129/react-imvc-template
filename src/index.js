@@ -1,4 +1,12 @@
-import template from './app-template'
+// routes
 
-
-export default {template}
+export default [
+  {
+    path: '/',
+    controller: require('./home/controller')
+  },
+  {
+    path: '/*',
+    controller: require('./notfound/controller')
+  }
+]
