@@ -6,7 +6,11 @@ export default [
     controller: require('./home/controller')
   },
   {
-    path: '/*',
+  	path: '/deep',
+  	controller: require('./deep/a/b/Controller')
+  },
+  {
+    path: ['/list', '/detail'],
     controller: require('./notfound/controller')
   }
 ]

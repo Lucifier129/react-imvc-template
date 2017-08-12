@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "install-imvc": "rimraf ./node_modules/react-imvc && babel ../react-imvc/publish --out-dir ./node_modules/react-imvc",
-    "start": "node start"
+    "start": "react-imvc start",
+    "build": "react-imvc build",
+    "test": "react-imvc test"
   },
   "repository": {
     "type": "git",
