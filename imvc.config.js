@@ -1,3 +1,3 @@
 export default {
-	codeSpliting: true,
+	// codeSpliting: true,
 }
