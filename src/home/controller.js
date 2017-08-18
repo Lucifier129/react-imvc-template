@@ -1,18 +1,13 @@
 import Controller from '../share/BaseController'
 import View from './view'
-import * as model from './model'
-
-// 从 model 里取出初始化状态，和 actions 函数
-const { initialState, ...actions } = model
+import * as Model from './model'
 
 export default class Test extends Controller {
+  Model = Model
+  View = View; // React 根组件
   preload = {
     test: '/css/test.css'
   };
-  View = View; // React 根组件
-  initialState = initialState; // 初始化状态
-  actions = actions; // action 函数
-
   // 事件处理函数以 handleXXX 开头，且必须为箭头函数写法
   handleIncre = event => {
     /**
@@ -71,17 +66,17 @@ export default class Test extends Controller {
   }
 
   // react 组件的生命周期
-  componentWillMount () {}
   componentDidMount () {
+    console.log('didMount')
     console.log('cookie', this.cookie('test_cookie'))
     this.removeCookie('test_cookie')
     // this.cookie('test_cookie', 123, {
     //   expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
     // })
   }
-  componentWillUpdate () {}
-  componentDidUpdate () {}
-  componentWillUnmount () {}
+  componentWillUnmount () {
+    console.log('willUnmount')
+  }
 
   // 在跳转之前调用，return 的内容将作为抱大腿提示
   pageWillLeave () {

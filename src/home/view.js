@@ -1,5 +1,6 @@
 import React from 'react'
 import { Input, Style } from 'react-imvc/component'
+import connect from 'react-imvc/connect'
 import Menu from '../component/Menu'
 
 export default function View ({ state, handlers }) {
