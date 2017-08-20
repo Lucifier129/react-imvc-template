@@ -1,39 +1,43 @@
-import React from 'react'
-import { Input, Style } from 'react-imvc/component'
-import connect from 'react-imvc/connect'
-import Menu from '../component/Menu'
+import React from "react";
+import { Link } from "react-imvc/component";
+import Layout from "../component/Layout";
 
-export default function View ({ state, handlers }) {
+export default function View({ state }) {
   return (
-    <div>
-      <Style name='test' />
-      <Menu />
-      <div>
-        <h1>count: {state.count}</h1>
-        <div>
-          <button onClick={handlers.handleIncre}>
-            加{state.num}
-          </button>
-          {' '}
-          <button onClick={handlers.handleDecre}>
-            减{state.num}
-          </button>
-          {' '}
-          {/**
-					 * Input 组件的 name 支持深度路径，a.b.c.d
-					 * 此处只用一级路径，更新 num，将更新 state.num
-					 */
-          }
-          <Input name='num' />
-        </div>
-        <div>
-          我是展示 ajax 数据的容器：{JSON.stringify(state.test)}
-        </div>
-        <img
-          src={`${state.publicPath}/img/Koala.jpg`}
-          width={200}
-        />
-      </div>
-    </div>
-  )
+    <Layout>
+      {state.contents.map(({ type, list }) => {
+        return (
+          <div key={type}>
+            <h2>
+              {type}
+            </h2>
+            <List data={list} />
+          </div>
+        );
+      })}
+    </Layout>
+  );
+}
+
+function List({ data }) {
+  return (
+    <ul>
+      {data.map(item => <ListItem key={item.url} {...item} />)}
+    </ul>
+  );
+}
+
+function ListItem({ title, url, raw, ...rest }) {
+  return (
+    <li>
+      {!!raw &&
+        <a href={url} {...rest}>
+          {title}
+        </a>}
+      {!raw &&
+        <Link to={url} {...rest}>
+          {title}
+        </Link>}
+    </li>
+  );
 }

@@ -1,16 +1,10 @@
 // routes
+import base from './base'
 
 export default [
   {
-    path: '/',
-    controller: require('./home/controller')
+    path: ['/', '/index', '/list'],
+    controller: require('./home/Controller')
   },
-  {
-  	path: '/deep',
-  	controller: require('./deep/a/b/Controller')
-  },
-  {
-    path: ['/list', '/detail'],
-    controller: require('./notfound/controller')
-  }
+  base,
 ]

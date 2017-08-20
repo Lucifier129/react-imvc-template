@@ -1,3 +1,4 @@
+// custom layout
 import React from 'react'
 
 export default function Page (props) {
@@ -15,7 +16,7 @@ export default function Page (props) {
           content='black-translucent'
         />
         <meta content='black' name='apple-mobile-web-app-status-bar-style' />
-        <title>Custom-layout: {props.title}</title>
+        <title>{props.title}</title>
         <meta name='description' content={props.description} />
         <meta name='keywords' content={props.keywords} />
       </head>
