@@ -15,12 +15,7 @@ export default class IsomorphicCookie extends Controller {
         }
     }
     getCount() {
-        try {
-            return Number(this.cookie('count'))
-        } catch(error) {
-            debugger
-        }
-        
+        return Number(this.cookie('count')) || 0
     }
     saveCount() {
         let state = this.store.getState()
