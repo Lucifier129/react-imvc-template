@@ -12,52 +12,73 @@ export const initialState = {
       list: [
         {
           title: "单独展示静态 React 组件",
-          url: "/base/static_view"
+          url: "/basic_usage/static_view"
+        },
+        {
+          title: "使用 Link 组件用不刷新页面的方式跳转页面",
+          url: "/basic_usage/use_link_component"
         },
         {
           title: "存在默认填充的 state 属性",
-          url: "/base/basic_state"
+          url: "/basic_usage/basic_state"
         },
         {
           title: "需要用特定方式引用 CSS 文件",
-          url: "/base/import_css"
+          url: "/basic_usage/import_css"
         },
         {
           title: "用 action 来改变 state",
-          url: "/base/use_action"
+          url: "/basic_usage/use_action"
         },
         {
           title: "事件函数写在 Controller 里统筹处理",
-          url: "/base/event_handler"
+          url: "/basic_usage/event_handler"
         },
         {
           title: "介绍有用的生命周期方法",
-          url: "/base/life_cycle_method"
+          url: "/basic_usage/life_cycle_method"
         },
         {
           title: "使用 fetch 方法同构地发起请求",
-          url: "/base/isomorphic_fetch"
+          url: "/basic_usage/isomorphic_fetch"
         },
         {
           title: "有最简单的 Mock 数据功能",
-          url: "/base/simple_mock"
+          url: "/basic_usage/simple_mock"
         },
         {
           title: "使用 cookie 方法同构地存取 cookie",
-          url: "/base/isomorphic_cookie"
+          url: "/basic_usage/isomorphic_cookie"
         },
         {
           title: "使用 redirect 方法同构地重定向",
-          url: "/base/isomorphic_redirect?tips=1秒后重定向到首页"
+          url: "/basic_usage/isomorphic_redirect?tips=1秒后重定向到首页"
         },
         {
           title: '介绍表单 Input 组件',
-          url: '/base/input_component'
+          url: '/basic_usage/input_component'
         },
         {
           title: '自定义 title、description 和 keywoards',
-          url: '/base/custom_title_description_keywords'
+          url: '/basic_usage/custom_title_description_keywords'
         },
+      ]
+    },
+    {
+      type: '进阶用法',
+      list: [
+        {
+          title: '自定义同构方法',
+          url: "/advanced_usage/custom_isomorphic_method"
+        },
+        {
+          title: '页面转场动画',
+          url: "/advanced_usage/page_transition/a"
+        },
+        {
+          title: '页面转场动画-联动',
+          url: "/advanced_usage/page_transition/c"
+        }
       ]
     }
   ]
