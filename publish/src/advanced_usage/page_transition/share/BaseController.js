@@ -36,7 +36,8 @@ var _class = function (_Controller) {
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args))), _this), _this.preload = {
             'normalize': '/advanced_usage/page_transition/css/normalize.css',
-            'animate': '/advanced_usage/page_transition/css/animate.css'
+            'animate': '/advanced_usage/page_transition/css/animate.css',
+            'main': '/advanced_usage/page_transition/css/main.css'
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 

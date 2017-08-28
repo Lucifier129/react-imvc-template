@@ -30,6 +30,7 @@ function AnimateLayout(_ref) {
         null,
         _react2.default.createElement(_component.Style, { name: 'normalize' }),
         _react2.default.createElement(_component.Style, { name: 'animate' }),
+        _react2.default.createElement(_component.Style, { name: 'main' }),
         _react2.default.createElement(
             _Animate2.default,
             { animation: state.activeAnimateType },

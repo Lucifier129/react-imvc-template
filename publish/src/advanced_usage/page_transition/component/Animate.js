@@ -29,19 +29,21 @@ exports.default = (0, _createViewManager2.default)({
                     switch (_context.prev = _context.next) {
                         case 0:
                             animation = props.animation;
-                            classList = current.classList;
+                            classList = ['animation-duration-400ms', 'animated', animation];
 
-                            classList.add('animated');
-                            classList.add(animation);
-                            _context.next = 6;
+                            classList.forEach(function (className) {
+                                return current.classList.add(className);
+                            });
+                            _context.next = 5;
                             return waitForAnimationEnd(current);
 
-                        case 6:
+                        case 5:
                             window.scrollTo(0, 0);
-                            classList.remove('animated');
-                            classList.remove(animation);
+                            classList.forEach(function (className) {
+                                return current.classList.remove(className);
+                            });
 
-                        case 9:
+                        case 7:
                         case 'end':
                             return _context.stop();
                     }
@@ -61,18 +63,20 @@ exports.default = (0, _createViewManager2.default)({
                     switch (_context2.prev = _context2.next) {
                         case 0:
                             animation = props.animation.replace('In', 'Out');
-                            classList = previous.classList;
+                            classList = ['animation-duration-400ms', 'animated', animation];
 
-                            classList.add('animated');
-                            classList.add(animation);
-                            _context2.next = 6;
+                            classList.forEach(function (className) {
+                                return previous.classList.add(className);
+                            });
+                            _context2.next = 5;
                             return waitForAnimationEnd(previous);
 
-                        case 6:
-                            classList.remove('animated');
-                            classList.remove(animation);
+                        case 5:
+                            classList.forEach(function (className) {
+                                return previous.classList.remove(className);
+                            });
 
-                        case 8:
+                        case 6:
                         case 'end':
                             return _context2.stop();
                     }
@@ -86,7 +90,8 @@ exports.default = (0, _createViewManager2.default)({
 function waitForAnimationEnd(node) {
     return new Promise(function (resolve) {
         var handleAnimationEnd = function handleAnimationEnd(_ref3) {
-            var currentTarget = _ref3.currentTarget,
+            var type = _ref3.type,
+                currentTarget = _ref3.currentTarget,
                 target = _ref3.target;
 
             if (currentTarget !== target) {

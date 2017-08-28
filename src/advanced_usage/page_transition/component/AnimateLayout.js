@@ -8,6 +8,7 @@ export default function AnimateLayout({ state, children }) {
         <div>
             <Style name="normalize" />
             <Style name="animate" />
+            <Style name="main" />
             <Animate animation={state.activeAnimateType}>
                 {children}
             </Animate>

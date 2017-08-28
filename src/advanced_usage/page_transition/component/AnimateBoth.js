@@ -3,20 +3,18 @@ import createViewManager from './createViewManager'
 
 export default createViewManager({
     async animate(animation, inElement, outElement, scrollToTop=false) {
-        inElement.classList.add('animated')
-        inElement.classList.add(animation.in)
-        outElement.classList.add('animated')
-        outElement.classList.add(animation.out)
+        let inClassList = ['animated', 'animation-duration-400ms', animation.in]
+        let outClassList = ['animated', 'animation-duration-400ms', animation.out]
+        inClassList.forEach(className => inElement.classList.add(className))
+        outClassList.forEach(className => outElement.classList.add(className))
         await Promise.all([
             waitForAnimationEnd(inElement), waitForAnimationEnd(outElement)
         ])
         if (scrollToTop) {
             window.scrollTo(0, 0)
         }
-        inElement.classList.remove('animated')
-        inElement.classList.remove(animation.in)
-        outElement.classList.remove('animated')
-        outElement.classList.remove(animation.out)
+        inClassList.forEach(className => inElement.classList.remove(className))
+        outClassList.forEach(className => outElement.classList.remove(className))
     },
     onPageIn({ props, current, previous }) {
         let animation = getAnimation(props.animation, false)

@@ -1,6 +1,17 @@
 import React from 'react'
 import classnames from 'classnames'
 
+const emptyStyle = {
+    position: '',
+    top: '',
+    left: '',
+    backgroundColor: '',
+    width: '',
+    minHeight: '',
+    boxShadow: '',
+    webkitBoxShadow: '',
+}
+
 export default function createViewManager(options={}) {
     const getStyle = style => {
         return Object.assign({
@@ -18,22 +29,13 @@ export default function createViewManager(options={}) {
         static contextTypes = {
             location: React.PropTypes.object,
         }
+        static defaultProps = {
+            as: 'div'
+        }
         state = {
             prevView: null,
         }
         scrollStore = {}
-        reset = () => {
-            let { current, previous } = this
-            if (current) {
-                current.style = ''
-            }
-            if (previous) {
-                previous.style = ''
-            }
-            this.setState({
-                prevView: null,
-            })
-        }
         getType() {
             if (!this.state.prevView) {
                 return 'normal'
@@ -49,9 +51,16 @@ export default function createViewManager(options={}) {
             }
             let { current, previous, container, props } = this
             let data = { props, current, previous, container }
-            let promise = options[method](data, this.reset)
+            let reset = () => {
+                Object.assign(current.style, emptyStyle)
+                Object.assign(previous.style, emptyStyle)
+                this.setState({
+                    prevView: null,
+                })
+            }
+            let promise = options[method](data, reset)
             if (promise && typeof promise.then === 'function') {
-                promise.then(this.reset)
+                promise.then(reset).catch(error => alert(error))
             }
         }
         saveScroll = () => {
@@ -85,7 +94,7 @@ export default function createViewManager(options={}) {
                 case 'out':
                     let top = -this.scrollStore[this.state.prevLocation.raw]
                     Object.assign(previous.style, getStyle({
-                        top: `${top}px`
+                        top: `${top}px`,
                     }))
                     this.emit('onPageOut')
                     break
@@ -101,40 +110,43 @@ export default function createViewManager(options={}) {
             this.previous = previous
         }
         renderNormal() {
+            let { as: Tag, ...props } = this.props
             return (
-                <div>
+                <Tag {...props}>
                     <div key="current">
                         {this.props.children}
                     </div>
-                </div>
+                </Tag>
             )
         }
         renderIn() {
+            let { as: Tag, ...props } = this.props
             let currView = this.props.children
             let prevView = this.state.prevView
             return (
-                <div ref={this.getContainer}>
+                <Tag  {...props} ref={this.getContainer}>
                     <div key="current" ref={this.getCurrent}>
                         {currView}
                     </div>
                     <div key="previous" ref={this.getPrevious}>
                         {prevView}
                     </div>
-                </div>
+                </Tag>
             )
         }
         renderOut() {
+            let { as: Tag, ...props } = this.props
             let currView = this.props.children
             let prevView = this.state.prevView
             return (
-                <div ref={this.getContainer}>
+                <Tag {...props} ref={this.getContainer}>
                     <div key="previous" ref={this.getPrevious}>
                         {prevView}
                     </div>
                     <div key="current" ref={this.getCurrent}>
                         {currView}
                     </div>
-                </div>
+                </Tag>
             )
         }
         render() {

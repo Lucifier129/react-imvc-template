@@ -22,14 +22,20 @@ exports.default = (0, _createViewManager2.default)({
 
         var scrollToTop = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
         return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            var inClassList, outClassList;
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
                     switch (_context.prev = _context.next) {
                         case 0:
-                            inElement.classList.add('animated');
-                            inElement.classList.add(animation.in);
-                            outElement.classList.add('animated');
-                            outElement.classList.add(animation.out);
+                            inClassList = ['animated', 'animation-duration-400ms', animation.in];
+                            outClassList = ['animated', 'animation-duration-400ms', animation.out];
+
+                            inClassList.forEach(function (className) {
+                                return inElement.classList.add(className);
+                            });
+                            outClassList.forEach(function (className) {
+                                return outElement.classList.add(className);
+                            });
                             _context.next = 6;
                             return Promise.all([waitForAnimationEnd(inElement), waitForAnimationEnd(outElement)]);
 
@@ -37,12 +43,14 @@ exports.default = (0, _createViewManager2.default)({
                             if (scrollToTop) {
                                 window.scrollTo(0, 0);
                             }
-                            inElement.classList.remove('animated');
-                            inElement.classList.remove(animation.in);
-                            outElement.classList.remove('animated');
-                            outElement.classList.remove(animation.out);
+                            inClassList.forEach(function (className) {
+                                return inElement.classList.remove(className);
+                            });
+                            outClassList.forEach(function (className) {
+                                return outElement.classList.remove(className);
+                            });
 
-                        case 11:
+                        case 9:
                         case 'end':
                             return _context.stop();
                     }

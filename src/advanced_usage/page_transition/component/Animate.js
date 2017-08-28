@@ -4,28 +4,24 @@ import createViewManager from './createViewManager'
 export default createViewManager({
     async onPageIn({ props, current }) {
         let animation = props.animation
-        let classList = current.classList
-        classList.add('animated')
-        classList.add(animation)
+        let classList = ['animation-duration-400ms', 'animated', animation]
+        classList.forEach(className => current.classList.add(className))
         await waitForAnimationEnd(current)
         window.scrollTo(0, 0)
-        classList.remove('animated')
-        classList.remove(animation)
+        classList.forEach(className => current.classList.remove(className))
     },
     async onPageOut({ props, previous }) {
         let animation = props.animation.replace('In', 'Out')
-        let classList = previous.classList
-        classList.add('animated')
-        classList.add(animation)
+        let classList = ['animation-duration-400ms', 'animated', animation]
+        classList.forEach(className => previous.classList.add(className))
         await waitForAnimationEnd(previous)
-        classList.remove('animated')
-        classList.remove(animation)
+        classList.forEach(className => previous.classList.remove(className))
     },
 })
 
 function waitForAnimationEnd(node) {
     return new Promise(resolve => {
-        let handleAnimationEnd = ({ currentTarget, target }) => {
+        let handleAnimationEnd = ({ type, currentTarget, target }) => {
             if (currentTarget !== target) {
                 return
             }
