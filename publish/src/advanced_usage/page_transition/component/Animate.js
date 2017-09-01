@@ -22,7 +22,7 @@ exports.default = (0, _createViewManager2.default)({
 
         var props = _ref.props,
             current = _ref.current;
-        return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
             var animation, classList;
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
@@ -56,7 +56,7 @@ exports.default = (0, _createViewManager2.default)({
 
         var props = _ref2.props,
             previous = _ref2.previous;
-        return _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
             var animation, classList;
             return regeneratorRuntime.wrap(function _callee2$(_context2) {
                 while (1) {

@@ -37,7 +37,7 @@ var ImportCSS = function (_Controller) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ImportCSS.__proto__ || Object.getPrototypeOf(ImportCSS)).call.apply(_ref, [this].concat(args))), _this), _this.preload = _defineProperty({
-      base: "/base/import_css/css/base.css"
+      base: "/basic_usage/import_css/css/base.css"
     }, _this.location.query.color || 'red', getCssByColor(_this.location.query.color)), _this.View = _View2.default, _temp), _possibleConstructorReturn(_this, _ret);
   }
   /**
@@ -55,7 +55,7 @@ exports.default = ImportCSS;
 var whileList = ["red", "blue"];
 function getCssByColor(color) {
   if (whileList.includes(color)) {
-    return "/base/import_css/css/" + color + ".css";
+    return "/basic_usage/import_css/css/" + color + ".css";
   }
-  return "/base/import_css/css/red.css";
+  return "/basic_usage/import_css/css/red.css";
 }

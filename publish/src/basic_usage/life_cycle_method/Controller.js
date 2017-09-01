@@ -62,7 +62,7 @@ var LifeCycleMethod = function (_Controller) {
      * 该方法既会在服务端执行，也会在浏览器端执行
      */
     value: function () {
-      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(initialState) {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(initialState) {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -96,7 +96,7 @@ var LifeCycleMethod = function (_Controller) {
   }, {
     key: "shouldComponentCreate",
     value: function () {
-      var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -128,7 +128,7 @@ var LifeCycleMethod = function (_Controller) {
   }, {
     key: "componentWillCreate",
     value: function () {
-      var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -159,7 +159,7 @@ var LifeCycleMethod = function (_Controller) {
   }, {
     key: "componentDidMount",
     value: function () {
-      var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+      var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {

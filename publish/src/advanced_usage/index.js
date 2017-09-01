@@ -18,4 +18,10 @@ exports.default = [{
 }, {
     path: '/advanced_usage/page_transition/d',
     controller: require('./page_transition/page_d/Controller')
+}, {
+    path: '/advanced_usage/use_keep_alive/a',
+    controller: require('./use_keep_alive/page_a/Controller')
+}, {
+    path: '/advanced_usage/use_keep_alive/b',
+    controller: require('./use_keep_alive/page_b/Controller')
 }];

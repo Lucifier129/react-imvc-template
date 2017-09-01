@@ -7,7 +7,7 @@ export default class ImportCSS extends Controller {
  * 可以动态地构造出来
  */
   preload = {
-    base: "/base/import_css/css/base.css",
+    base: "/basic_usage/import_css/css/base.css",
     [this.location.query.color || 'red']: getCssByColor(this.location.query.color)
   };
   View = View;
@@ -16,7 +16,7 @@ export default class ImportCSS extends Controller {
 const whileList = ["red", "blue"];
 function getCssByColor(color) {
   if (whileList.includes(color)) {
-    return `/base/import_css/css/${color}.css`;
+    return `/basic_usage/import_css/css/${color}.css`;
   }
-  return `/base/import_css/css/red.css`;
+  return `/basic_usage/import_css/css/red.css`;
 }

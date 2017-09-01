@@ -34,7 +34,7 @@ function View(_ref) {
       null,
       _react2.default.createElement(
         _component.Link,
-        { to: "/base/basic_state/123" },
+        { to: "/basic_usage/basic_state/123" },
         "\u5E26\u8DEF\u5F84\u53C2\u6570\u7684\u94FE\u63A5"
       )
     ),
@@ -43,7 +43,7 @@ function View(_ref) {
       null,
       _react2.default.createElement(
         _component.Link,
-        { to: "/base/basic_state" },
+        { to: "/basic_usage/basic_state" },
         "\u4E0D\u5E26\u8DEF\u5F84\u53C2\u6570\u7684\u94FE\u63A5"
       )
     ),

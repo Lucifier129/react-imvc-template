@@ -21,7 +21,7 @@ exports.default = (0, _createViewManager2.default)({
         var _this = this;
 
         var scrollToTop = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-        return _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
             var inClassList, outClassList;
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {

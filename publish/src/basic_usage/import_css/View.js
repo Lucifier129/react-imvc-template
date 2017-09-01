@@ -35,7 +35,7 @@ function View(_ref) {
             null,
             _react2.default.createElement(
                 _component.Link,
-                { to: '/base/import_css?color=red' },
+                { to: '/basic_usage/import_css?color=red' },
                 'red'
             )
         ),
@@ -44,7 +44,7 @@ function View(_ref) {
             null,
             _react2.default.createElement(
                 _component.Link,
-                { to: '/base/import_css?color=blue' },
+                { to: '/basic_usage/import_css?color=blue' },
                 'blue'
             )
         )

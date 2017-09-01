@@ -139,7 +139,7 @@ function createViewManager() {
             value: function componentWillReceiveProps(_, nextContext) {
                 var currentLocation = this.context.location;
                 var nextLocation = nextContext.location;
-                if (currentLocation !== nextLocation) {
+                if (currentLocation.raw !== nextLocation.raw) {
                     this.setState({
                         prevView: this.props.children,
                         prevLocation: currentLocation
@@ -173,7 +173,8 @@ function createViewManager() {
             value: function renderNormal() {
                 var _props = this.props,
                     Tag = _props.as,
-                    props = _objectWithoutProperties(_props, ['as']);
+                    animation = _props.animation,
+                    props = _objectWithoutProperties(_props, ['as', 'animation']);
 
                 return _react2.default.createElement(
                     Tag,
@@ -190,7 +191,8 @@ function createViewManager() {
             value: function renderIn() {
                 var _props2 = this.props,
                     Tag = _props2.as,
-                    props = _objectWithoutProperties(_props2, ['as']);
+                    animation = _props2.animation,
+                    props = _objectWithoutProperties(_props2, ['as', 'animation']);
 
                 var currView = this.props.children;
                 var prevView = this.state.prevView;
@@ -214,7 +216,8 @@ function createViewManager() {
             value: function renderOut() {
                 var _props3 = this.props,
                     Tag = _props3.as,
-                    props = _objectWithoutProperties(_props3, ['as']);
+                    animation = _props3.animation,
+                    props = _objectWithoutProperties(_props3, ['as', 'animation']);
 
                 var currView = this.props.children;
                 var prevView = this.state.prevView;

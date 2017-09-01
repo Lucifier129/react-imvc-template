@@ -76,7 +76,7 @@ export default function createViewManager(options={}) {
         componentWillReceiveProps(_, nextContext) {
             let currentLocation = this.context.location
             let nextLocation = nextContext.location
-            if (currentLocation !== nextLocation) {
+            if (currentLocation.raw !== nextLocation.raw) {
                 this.setState({
                     prevView: this.props.children,
                     prevLocation: currentLocation,
@@ -110,7 +110,7 @@ export default function createViewManager(options={}) {
             this.previous = previous
         }
         renderNormal() {
-            let { as: Tag, ...props } = this.props
+            let { as: Tag, animation, ...props } = this.props
             return (
                 <Tag {...props}>
                     <div key="current">
@@ -120,7 +120,7 @@ export default function createViewManager(options={}) {
             )
         }
         renderIn() {
-            let { as: Tag, ...props } = this.props
+            let { as: Tag, animation, ...props } = this.props
             let currView = this.props.children
             let prevView = this.state.prevView
             return (
@@ -135,7 +135,7 @@ export default function createViewManager(options={}) {
             )
         }
         renderOut() {
-            let { as: Tag, ...props } = this.props
+            let { as: Tag, animation, ...props } = this.props
             let currView = this.props.children
             let prevView = this.state.prevView
             return (

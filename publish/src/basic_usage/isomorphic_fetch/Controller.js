@@ -50,7 +50,7 @@ var IsomorphicFetch = function (_Controller) {
     _createClass(IsomorphicFetch, [{
         key: 'componentWillCreate',
         value: function () {
-            var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
                 var fetch, store, state, url, options, ssr, UPDATE_STATE;
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
@@ -60,7 +60,7 @@ var IsomorphicFetch = function (_Controller) {
                                 state = store.getState();
                                 // fetch 一个静态资源 ssr.json
 
-                                url = state.publicPath + '/base/isomorphic_fetch/json/ssr.json';
+                                url = state.publicPath + '/basic_usage/isomorphic_fetch/json/ssr.json';
                                 // fetch 方法默认会对非绝对路径，自动补全 restapi，raw 选项可以关闭自动补全
 
                                 options = {
@@ -93,7 +93,7 @@ var IsomorphicFetch = function (_Controller) {
     }, {
         key: 'componentDidMount',
         value: function () {
-            var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
                 var fetch, store, state, url, options, csr, UPDATE_STATE;
                 return regeneratorRuntime.wrap(function _callee2$(_context2) {
                     while (1) {
@@ -103,7 +103,7 @@ var IsomorphicFetch = function (_Controller) {
                                 state = store.getState();
                                 // fetch 一个静态资源 csr.json
 
-                                url = state.publicPath + '/base/isomorphic_fetch/json/csr.json';
+                                url = state.publicPath + '/basic_usage/isomorphic_fetch/json/csr.json';
                                 // fetch 方法默认会对非绝对路径，自动补全 restapi，raw 选项可以关闭自动补全
 
                                 options = {

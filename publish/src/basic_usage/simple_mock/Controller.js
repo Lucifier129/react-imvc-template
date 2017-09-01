@@ -50,7 +50,7 @@ var IsomorphicFetch = function (_Controller) {
     _createClass(IsomorphicFetch, [{
         key: 'componentWillCreate',
         value: function () {
-            var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
                 var fetch, store, state, url, ssr, UPDATE_STATE;
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
@@ -60,7 +60,7 @@ var IsomorphicFetch = function (_Controller) {
                                 state = store.getState();
                                 // 以 /mock/* 开头的 url 都会被转发到本地静态 json 文件里，json 后缀是自动补全的
 
-                                url = '/mock/base/simple_mock/json/ssr';
+                                url = '/mock/basic_usage/simple_mock/json/ssr';
                                 _context.next = 5;
                                 return fetch(url);
 
@@ -87,7 +87,7 @@ var IsomorphicFetch = function (_Controller) {
     }, {
         key: 'componentDidMount',
         value: function () {
-            var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
                 var fetch, store, state, url, csr, UPDATE_STATE;
                 return regeneratorRuntime.wrap(function _callee2$(_context2) {
                     while (1) {
@@ -97,7 +97,7 @@ var IsomorphicFetch = function (_Controller) {
                                 state = store.getState();
                                 // 以 /mock/* 开头的 url 都会被转发到本地静态 json 文件里，json 后缀是自动补全的
 
-                                url = '/mock/base/simple_mock/json/csr';
+                                url = '/mock/basic_usage/simple_mock/json/csr';
                                 // 延迟一秒
 
                                 _context2.next = 5;

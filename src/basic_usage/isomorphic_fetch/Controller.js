@@ -9,7 +9,7 @@ export default class IsomorphicFetch extends Controller {
         let { fetch, store } = this
         let state = store.getState()
         // fetch 一个静态资源 ssr.json
-        let url = `${state.publicPath}/base/isomorphic_fetch/json/ssr.json`
+        let url = `${state.publicPath}/basic_usage/isomorphic_fetch/json/ssr.json`
         // fetch 方法默认会对非绝对路径，自动补全 restapi，raw 选项可以关闭自动补全
         let options = {
             method: 'GET',
@@ -23,7 +23,7 @@ export default class IsomorphicFetch extends Controller {
         let { fetch, store } = this
         let state = store.getState()
         // fetch 一个静态资源 csr.json
-        let url = `${state.publicPath}/base/isomorphic_fetch/json/csr.json`
+        let url = `${state.publicPath}/basic_usage/isomorphic_fetch/json/csr.json`
         // fetch 方法默认会对非绝对路径，自动补全 restapi，raw 选项可以关闭自动补全
         let options = {
             method: 'GET',
