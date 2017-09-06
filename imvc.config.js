@@ -1,5 +1,6 @@
 export default {
 	layout: 'Layout',
-	restapi: '/restapi'
+	restapi: '/restapi',
+	routes: 'routes',
 	// codeSpliting: true,
 }
