@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
 	layout: 'Layout',
 	restapi: '/restapi',
-	routes: 'routes'
+	routes: 'routes',
+	staticEntry: 'index.html'
 	// codeSpliting: true,
 };
