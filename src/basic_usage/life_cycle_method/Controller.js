@@ -18,7 +18,7 @@ export default class LifeCycleMethod extends Controller {
    * 有时我们需要动态地计算出初始化状态
    * getInitialState 生命周期方法会拿到静态的 initialState
    * 支持 async/await，可以阻塞后续的生命周期方法
-   * 该方法既会在服务端执行，也会在浏览器端执行
+   * 该方法在服务端执行过的话，就不会在浏览器端再执行
    */
   async getInitialState(initialState) {
     console.log('getInitialState')
@@ -45,11 +45,21 @@ export default class LifeCycleMethod extends Controller {
   async componentWillCreate() {
     console.log('componentWillCreate')
   }
+
+   /**
+   * 组件已第一次插入 DOM 树
+   * componentDidFirstMount 方法从 react 组件里 hook 到 controller 而来
+   * 该生命周期触发时，通常表明用户已经看到了首屏
+   * 可以在这里调用 fetch 方法获取非首屏数据
+   */
+  async componentDidFirstMount() {
+    console.log('componentDidFirstMount')
+  }
+
   /**
    * 组件已插入 DOM 树
    * componentDidMount 方法从 react 组件里 hook 到 controller 而来
-   * 该生命周期触发时，通常表明用户已经看到了首屏
-   * 可以在这里调用 fetch 方法获取非首屏数据
+   * 可以在这里绑定定时器
    */
   async componentDidMount() {
     console.log('componentDidMount')

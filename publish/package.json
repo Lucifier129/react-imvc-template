@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Lucifier129/react-imvc-template#readme",
   "dependencies": {
-    "react-imvc": "^1.0.4"
+    "react-imvc": "^1.0.6",
+    "uglify-js": "^2.6.4"
   }
 }

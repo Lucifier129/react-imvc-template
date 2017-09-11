@@ -59,7 +59,7 @@ var LifeCycleMethod = function (_Controller) {
      * 有时我们需要动态地计算出初始化状态
      * getInitialState 生命周期方法会拿到静态的 initialState
      * 支持 async/await，可以阻塞后续的生命周期方法
-     * 该方法既会在服务端执行，也会在浏览器端执行
+     * 该方法在服务端执行过的话，就不会在浏览器端再执行
      */
     value: function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(initialState) {
@@ -149,22 +149,23 @@ var LifeCycleMethod = function (_Controller) {
 
       return componentWillCreate;
     }()
+
     /**
-     * 组件已插入 DOM 树
-     * componentDidMount 方法从 react 组件里 hook 到 controller 而来
-     * 该生命周期触发时，通常表明用户已经看到了首屏
-     * 可以在这里调用 fetch 方法获取非首屏数据
-     */
+    * 组件已第一次插入 DOM 树
+    * componentDidFirstMount 方法从 react 组件里 hook 到 controller 而来
+    * 该生命周期触发时，通常表明用户已经看到了首屏
+    * 可以在这里调用 fetch 方法获取非首屏数据
+    */
 
   }, {
-    key: "componentDidMount",
+    key: "componentDidFirstMount",
     value: function () {
       var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                console.log('componentDidMount');
+                console.log('componentDidFirstMount');
 
               case 1:
               case "end":
@@ -174,8 +175,39 @@ var LifeCycleMethod = function (_Controller) {
         }, _callee4, this);
       }));
 
-      function componentDidMount() {
+      function componentDidFirstMount() {
         return _ref5.apply(this, arguments);
+      }
+
+      return componentDidFirstMount;
+    }()
+
+    /**
+     * 组件已插入 DOM 树
+     * componentDidMount 方法从 react 组件里 hook 到 controller 而来
+     * 可以在这里绑定定时器
+     */
+
+  }, {
+    key: "componentDidMount",
+    value: function () {
+      var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                console.log('componentDidMount');
+
+              case 1:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function componentDidMount() {
+        return _ref6.apply(this, arguments);
       }
 
       return componentDidMount;
