@@ -6,15 +6,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _BaseController = require('../shared/BaseController');
+var _controller = require('react-imvc/controller');
 
-var _BaseController2 = _interopRequireDefault(_BaseController);
+var _controller2 = _interopRequireDefault(_controller);
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
 var _component = require('react-imvc/component');
+
+var _Layout = require('../../../component/Layout');
+
+var _Layout2 = _interopRequireDefault(_Layout);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40,7 +44,7 @@ var _class = function (_Controller) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args))), _this), _this.View = View, _this.initialState = {
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = _class.__proto__ || Object.getPrototypeOf(_class)).call.apply(_ref, [this].concat(args))), _this), _this.KeepAlive = true, _this.View = View, _this.initialState = {
             shouldComponentCreate: 0,
             componentWillCreate: 0,
             componentDidFirstMount: 0,
@@ -97,7 +101,7 @@ var _class = function (_Controller) {
     }]);
 
     return _class;
-}(_BaseController2.default);
+}(_controller2.default);
 
 exports.default = _class;
 
@@ -106,7 +110,7 @@ function View(_ref2) {
     var state = _ref2.state;
 
     return _react2.default.createElement(
-        'div',
+        _Layout2.default,
         null,
         _react2.default.createElement(
             'h2',
