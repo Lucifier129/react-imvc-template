@@ -72,14 +72,6 @@ export const initialState = {
           url: "/advanced_usage/custom_isomorphic_method"
         },
         {
-          title: '运用 BaseView 属性页面转场动画',
-          url: "/advanced_usage/page_transition/a"
-        },
-        {
-          title: '运用 BaseView 属性页面转场动画-联动',
-          url: "/advanced_usage/page_transition/c"
-        },
-        {
           title: '运用 KeepAlive 属性复用 controller',
           url: "/advanced_usage/use_keep_alive/a"
         }

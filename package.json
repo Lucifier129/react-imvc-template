@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/Lucifier129/react-imvc-template#readme",
   "dependencies": {
-    "react-imvc": "^1.0.6"
+    "react-imvc": "^1.1.0"
   }
 }

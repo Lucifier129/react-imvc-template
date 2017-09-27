@@ -1,8 +1,10 @@
-import Controller from '../shared/BaseController'
+import Controller from 'react-imvc/controller'
 import React from 'react'
 import { Link } from 'react-imvc/component'
+import Layout from '../../../component/Layout'
 
 export default class extends Controller {
+    KeepAlive = true
     View = View
     initialState = {
         shouldComponentCreate: 0,
@@ -45,7 +47,7 @@ export default class extends Controller {
 
 function View({ state }) {
     return (
-        <div>
+        <Layout>
             <h2>I am Page A</h2>
             <div>
                 <Link to="/advanced_usage/use_keep_alive/b">去 Page B</Link>
@@ -55,6 +57,6 @@ function View({ state }) {
                 <Link href="javascript:;" forward>前进</Link>
             </div>
             <pre>{JSON.stringify(state, null, 2)}</pre>
-        </div>
+        </Layout>
     )
 }
