@@ -74,7 +74,11 @@ export const initialState = {
         {
           title: '运用 KeepAlive 属性复用 controller',
           url: "/advanced_usage/use_keep_alive/a"
-        }
+        },
+        {
+          title: "使用 NavLink 组件响应当前 url 的匹配样式",
+          url: "/advanced_usage/use_nav_link_component/a"
+        },
       ]
     }
   ]
