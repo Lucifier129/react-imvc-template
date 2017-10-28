@@ -8,7 +8,7 @@ exports.default = {
 	restapi: '/restapi',
 	routes: 'routes',
 	staticEntry: 'index.html',
-	codeSpliting: true,
+	// codeSpliting: true,
 	gulp: {
 		publishCopy: ['!' + __dirname + '/should_ignore', '!' + __dirname + '/should_ignore/**/*'],
 		publishBabel: ['!' + __dirname + '/should_ignore/**/*.js']

@@ -12,4 +12,7 @@ exports.default = [{
 }, {
     path: '/advanced_usage/use_keep_alive/b',
     controller: require('./use_keep_alive/page_b/Controller')
+}, {
+    path: '/advanced_usage/use_nav_link_component/:type',
+    controller: require('./use_nav_link_component/Controller')
 }];
